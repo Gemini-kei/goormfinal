@@ -2,20 +2,20 @@ import { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import MarkerOverlay from "@/components/markerOverlay";
 
-declare global {
-  interface Window {
-    kakao: any;
-  }
-}
+// declare global {
+//   interface Window {
+//     kakao: any;
+//   }
+// }
 
-export default function useMapMarkers(map: any) {
-  const [markers, setMarkers] = useState<any[]>([]);
-  const [overlays, setOverlays] = useState<any[]>([]);
+export default function useMapMarkers(map: kakao.maps.Map | null) {
+  const [markers, setMarkers] = useState<kakao.maps.Marker[]>([]);
+  const [overlays, setOverlays] = useState<kakao.maps.CustomOverlay[]>([]);
 
   useEffect(() => {
     if (!map || !window.kakao) return;
 
-    const handleRightClick = (mouseEvent: any) => {
+    const handleRightClick = (mouseEvent: kakao.maps.event.MouseEvent) => {
       const clickPosition = mouseEvent.latLng;
       overlays.forEach((overlay) => overlay.setMap(null))
       setOverlays([]);
