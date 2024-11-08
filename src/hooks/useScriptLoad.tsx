@@ -10,12 +10,7 @@ export const useLoadScript = (src: string, onLoadCallback?: () => void) => {
   const isLoadingScript = useRef(false);
 
   useEffect(() => {
-    // if (isScriptLoad.current) {
-    //   // 이미 스크립트가 로드되었으면 바로 로드 상태 설정
-    //   setIsLoaded(true);
-    //   if (OnLoadCallbackRef.current) OnLoadCallbackRef.current();
-    //   return;
-    // }
+    
     if (isLoadingScript.current){
       return;
     }

@@ -19,6 +19,7 @@ export const useLogin = () => {
     mutationFn:Login,
     onSuccess: (data) => {
         localStorage.setItem('accessToken', data.accessToken)
+        localStorage.setItem('userId', data.userId)
         console.log("success", data);
         router.push('/map');
 

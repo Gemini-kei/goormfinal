@@ -4,6 +4,7 @@ import { axiosInstance } from '@/components/axiosInstance';
 import { GetApiMembersSignUpResponse, PostApiMembersRequest } from '@/lib/authType';
 import { useRouter } from 'next/navigation';
 
+
 const signUp = async (signupData: PostApiMembersRequest) => {
   const API_URL = "/signup"
   const response = await axiosInstance.post<GetApiMembersSignUpResponse>(API_URL,signupData);
@@ -11,13 +12,13 @@ const signUp = async (signupData: PostApiMembersRequest) => {
 }
 
 export const useSignUp = () => {
-  const router = useRouter();
+  const router = useRouter()
 
   return useMutation<GetApiMembersSignUpResponse, Error, PostApiMembersRequest>({
     mutationFn:signUp,
     onSuccess: (data) => {
         console.log("success", data);
-        router.push('/map');
+        router.push('/login')
 
     },
     onError:() => {

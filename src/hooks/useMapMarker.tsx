@@ -10,58 +10,73 @@ import MarkerOverlay from "@/components/markerOverlay";
 
 export default function useMapMarkers(map: kakao.maps.Map | null) {
   const [markers, setMarkers] = useState<kakao.maps.Marker[]>([]);
-  const [overlays, setOverlays] = useState<kakao.maps.CustomOverlay[]>([]);
+  const [overlay, setOverlay] = useState<kakao.maps.CustomOverlay | null>(null);
+  // const [markerInfo, setMarkerInfo] = useState<kakao.maps.LatLng | null>(null);
 
   useEffect(() => {
     if (!map || !window.kakao) return;
 
     const handleRightClick = (mouseEvent: kakao.maps.event.MouseEvent) => {
       const clickPosition = mouseEvent.latLng;
-      overlays.forEach((overlay) => overlay.setMap(null))
-      setOverlays([]);
-      // 마커 생성
-      const marker = new window.kakao.maps.Marker({
-        position: clickPosition,
-      });
 
-      //marker.setMap(map);
+      if(overlay) { overlay.setMap(null)}
+      
 
       // CustomOverlay DOM container 생성
       const container = document.createElement("div");
 
       //CustomOverlay 생성
-      const overlay = new window.kakao.maps.CustomOverlay({
+      const newOverlay = new window.kakao.maps.CustomOverlay({
         position: clickPosition,
         content: container, // React Portal로 렌더링된 DOM 삽입
       });
 
-      overlay.setMap(map);
+      newOverlay.setMap(map);
 
       // React Portal로 OverlayContent 렌더링
       const root = ReactDOM.createRoot(container);
-      root.render(<MarkerOverlay onClose={() => overlay.setMap(null)} />);
+      console.log('test1')
+      const newMarker = new window.kakao.maps.Marker({
+        position: clickPosition,
+      });
+      console.log(clickPosition.getLat(), clickPosition.getLng())
+      newMarker.setMap(map);
 
-      setMarkers((prevMarkers) => [...prevMarkers, marker]);
-      setOverlays((prevOverlays) => [...prevOverlays, overlay]); // 오버레이 상태 추가
+      root.render(
+        <MarkerOverlay
+          onClose={() => {
+            newOverlay.setMap(null)
+            console.log("닫기")
+          }
+          }
+          onRegister={() => {
+            newMarker.setMap(map);
+            console.log('test2')      
+            setMarkers((prevMarkers) => [...prevMarkers, newMarker]);
+            newOverlay.setMap(null); // 등록후 오버레이 삭제
+          }}
+        />
+      );
+      setOverlay(newOverlay); // 오버레이 상태 추가
     };
 
     const handleMapClick = () => {
-      overlays.forEach((overlay) => overlay.setMap(null))
-      setOverlays([]);
-    }
+      if(overlay) { overlay.setMap(null)}
+      setOverlay(null);
+    };
 
     // 지도에 우클릭 이벤트 등록
     window.kakao.maps.event.addListener(map, "rightclick", handleRightClick);
 
     // 지도에 클릭 이벤트 등록
-    window.kakao.maps.event.addListener(map, "click", handleMapClick)
-    
+    window.kakao.maps.event.addListener(map, "click", handleMapClick);
 
     // 이벤트 제거
     return () => {
       window.kakao.maps.event.removeListener(map, "rightclick", handleRightClick);
+      window.kakao.maps.event.removeListener(map, "click", handleMapClick);
     };
-  }, [map, overlays]);
+  }, [map, overlay]);
 
-  return { markers, overlays };
+  return { markers };
 }

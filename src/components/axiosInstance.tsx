@@ -14,6 +14,7 @@ axiosInstance.interceptors.request.use(
     if (accessToken) {
       config.headers['Authorization'] = `Bearer ${accessToken}`; // 헤더에 토큰 추가
     }
+    console.log(config)
     return config;
   },
   (error) => {

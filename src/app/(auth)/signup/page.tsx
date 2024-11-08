@@ -4,88 +4,91 @@ import { useSignUp } from "@/hooks/useSignup";
 import { useState } from "react";
 import { CloseEyeicon, OpenEyeicon } from "@/components/icons/icons";
 import Input from "@/components/Input";
-
-const emailCheck = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
-const passwordCheck = /^.{4,}$/;
+import { validateField } from "@/components/auth/authValidate";
+import { checkEmail } from "@/hooks/useCheckEmail";
+import EmailModal from "@/components/emailCheckModal";
+// import { useAuth } from '@/context/AuthContext';
 
 export default function SignUp() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const { login } = useAuth();
+
+  const [formValues, setFormValues] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+    name: "",
+  });
+
+  const [errors, setErrors] = useState<{ [key: string]: string }>({
+    email: "",
+    password: "",
+    confirmPassword: "",
+    name: "",
+  });
+
   const [showPassword, setShowPassword] = useState(true);
-  new FormData
+  const [emailCheckMessage, setEmailCheckMessage] = useState<string | null>(null);
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
   const signUpMutation = useSignUp();
 
-  const [error, setError] = useState("필수입력");
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    // HandleCheck 호출하여 에러 메시지를 설정
-    if (e.target.name === "email") {
-      setEmail(value);
-      if (!emailCheck.test(value)) {
-        setError("유효한 이메일을 입력해주세요");
-      } else {
-        setError("");
-      }
-    } else if (e.target.name === "password") {
-      setPassword(value);
-      if (!passwordCheck.test(value)) {
-        setError("유효한 비밀번호를 입력해주세요");
-      } else {
-        setError("");
-      }
-    } else if (e.target.name === "confirmPassword") {
-      if (password === value) {
-        setError("비밀번호가 다릅니다.");
-      } else {
-        setError("");
-      }
+    const error = validateField(name, value, formValues.password);
+    if (name === "confirmPassword" && formValues.password !== value) {
+      setErrors((prev) => ({
+        ...prev,
+        confirmPassword: "비밀번호가 일치하지 않습니다.",
+      }));
+    } else {
+      setErrors((prev) => ({ ...prev, [name]: error }));
     }
   };
 
-  const isButtonDisabled = !!error;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormValues((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const isButtonDisabled =
+    !isEmailValid ||
+    Object.values(errors).some((error) => error !== "") ||
+    Object.values(formValues).some((value) => value === "");
+
+  const handleCheckEmail = async () => {
+    try {
+      const message = await checkEmail(formValues.email);
+      setEmailCheckMessage(message);
+      setIsEmailValid(true);
+    } catch (error) {
+      setEmailCheckMessage((error as Error).message);
+      setIsEmailValid(false);
+    } finally {
+      setModalOpen(true);
+    }
+  };
 
   const handleSignUp: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
-    const formData = new FormData(e.currentTarget);
+    const { email, password, name, confirmPassword } = formValues;
 
-    const email = formData.get("email");
-    const password = formData.get("password");
-    const confirmPassword = formData.get("confirmPassword");
-    const name = formData.get("name");
-
-    if (isButtonDisabled) {
-      return;
-    }
-
-    if (!email || !name || !password) {
-      return;
-    }
-    if (password !== confirmPassword) {
-      return;
-    }
-    if (
-      typeof email !== "string" ||
-      typeof name !== "string" ||
-      typeof password !== "string"
-    ) {
-      return;
-    }
+    if (isButtonDisabled) return;
+    if (password !== confirmPassword) return;
 
     signUpMutation.mutate({
-      email: email,
-      password: password,
-      name: name,
+      email,
+      password,
+      name,
     });
+    // login({ email, password });
   };
-
-  // 웹 접근성
-  //
 
   return (
     <div className="flex w-full h-screen items-start justify-center">
@@ -94,19 +97,28 @@ export default function SignUp() {
         <form className="flex flex-col space-y-2" onSubmit={handleSignUp}>
           <Input
             labelName="이메일"
-            error={error}
+            error={errors.email}
             right={
-              <button type="button" className="">
+              <button type="button" onClick={handleCheckEmail} className="">
                 중복확인
               </button>
             }
             type="email"
             id="email"
             name="email"
-            value={email}
+            value={formValues.email}
             onChange={handleChange}
+            onBlur={handleBlur}
             required
             placeholder="이메일 주소"
+          />
+          <EmailModal
+            isOpen={modalOpen}
+            onClose={() => {
+              setModalOpen(false);
+              setEmailCheckMessage(null); // 메시지 초기화
+            }}
+            message={emailCheckMessage || ""}
           />
 
           <Input
@@ -116,11 +128,13 @@ export default function SignUp() {
                 {showPassword ? <CloseEyeicon /> : <OpenEyeicon />}
               </button>
             }
-            error={error}
+            error={errors.password}
             type={showPassword ? "password" : "text"}
             id="password"
             name="password"
+            value={formValues.password}
             onChange={handleChange}
+            onBlur={handleBlur}
             required
             placeholder="비밀번호 4자 이상 입력하세요"
           />
@@ -128,11 +142,13 @@ export default function SignUp() {
           <Input
             labelName="비밀번호 확인"
             right={null}
-            error={error}
+            error={errors.confirmPassword}
             type={showPassword ? "password" : "text"}
             id="confirmPassword"
             name="confirmPassword"
+            value={formValues.confirmPassword}
             onChange={handleChange}
+            onBlur={handleBlur}
             required
             placeholder="비밀번호 확인"
           />
@@ -144,6 +160,8 @@ export default function SignUp() {
             type="text"
             id="name"
             name="name"
+            value={formValues.name}
+            onChange={handleChange}
             required
             placeholder="이름"
           />

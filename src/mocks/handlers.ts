@@ -17,9 +17,29 @@ export const handlers = [
       ctx.status(200),
       ctx.json({
         message: 'Signup successful!',
+        accessToken: 'mock-token-123456', // 모킹된 토큰
+        refreshToken: 'mock-token-678909',
         userId: '12345',
       })
     );
+  }),
+
+  rest.post('https://api.test.com/check-email', async(req, res, ctx) => {
+    
+    const {email} = await req.json();
+    console.log(email)
+    if (email === 'test@example.com'){
+      return res(
+        ctx.status(400),
+        ctx.json({message: '이미 사용 중인 이메일 입니다.'})
+      )
+    }
+    return res(
+      ctx.status(200),
+      ctx.json({
+        message: "사용 가능한 이메일 입니다."
+      })
+    )
   }),
 
   // 로그인 API 모킹
@@ -27,12 +47,46 @@ export const handlers = [
     const { email, password } = await req.json();
 
     // 로그인 유효성 검사
-    if (email === 'test@test.com' && password === '123') {
+    if (email === 'test@test.com' && password === '1234') {
       return res(
         ctx.status(200),
         ctx.json({
           message: '로그인 성공!',
           accessToken: 'mock-token-12345', // 모킹된 토큰
+          refreshToken: 'mock-token-67890',
+          userId: 123,
+        })
+      );
+    } else {
+      return res(
+        ctx.status(401),
+        ctx.json({
+          message: '이메일 또는 비밀번호가 올바르지 않습니다.',
+        })
+      );
+    }
+  }),
+  rest.post('https://api.test.com/members', async (req, res, ctx) => {
+    const authHeader = req.headers.get('Authorization'); // Authorization 헤더에서 토큰 추출
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res(
+        ctx.status(401),
+        ctx.json({
+          message: 'Authorization header is missing or invalid.',
+        })
+      );
+    }
+
+    const accessToken = authHeader.split(' ')[1]; // 'Bearer token' 형식에서 토큰만 추출
+
+    // 로그인 유효성 검사
+    if (accessToken === 'mock-token-12345') {  // 모킹된 토큰과 비교
+      return res(
+        ctx.status(200),
+        ctx.json({
+          message: '로그인 성공!',
+          accessToken: 'mock-token-12345',
           refreshToken: 'mock-token-67890',
           user: {
             id: '123',
@@ -43,9 +97,9 @@ export const handlers = [
       );
     } else {
       return res(
-        ctx.status(401),
+        ctx.status(403),
         ctx.json({
-          message: '이메일 또는 비밀번호가 올바르지 않습니다.',
+          message: 'Invalid or expired token.',
         })
       );
     }
@@ -61,4 +115,46 @@ export const handlers = [
       })
     );
   }),
+
+  rest.get('https://api.test.com/markers', (req, res, ctx) => {
+    const userId = req.url.searchParams.get('userId'); // 쿼리 파라미터에서 userId 추출
+    console.log(userId, "msw 핸들러")
+    if (!userId) {
+      return res(
+        ctx.status(400),
+        ctx.json({ message: 'User ID is required' })
+      );
+    }
+
+    // 더미 마커 데이터
+    const markersData = {
+      userId,
+      locations: [
+        {
+          groupId: 1,
+          name: 'Group A',
+          latitude: 37.5665,
+          longitude: 126.9780,
+        },
+        {
+          groupId: 2,
+          name: 'Group B',
+          latitude: 37.5695,
+          longitude: 126.9717,
+        },
+        {
+          groupId: 3,
+          name: 'Group B',
+          latitude: 37.3895,
+          longitude: 126.1917,
+        },
+      ],
+    };
+
+    return res(
+      ctx.status(200),
+      ctx.json(markersData) // 마커 데이터 반환
+    );
+  }),
+
 ];
