@@ -5,7 +5,7 @@ import { useState } from "react";
 import { CloseEyeicon, OpenEyeicon } from "@/components/icons/icons";
 import Input from "@/components/Input";
 import { validateField } from "@/components/auth/authValidate";
-import { checkEmail } from "@/hooks/useCheckEmail";
+// import { checkEmail } from "@/hooks/useCheckEmail";
 import EmailModal from "@/components/emailCheckModal";
 // import { useAuth } from '@/context/AuthContext';
 
@@ -61,18 +61,23 @@ export default function SignUp() {
     Object.values(errors).some((error) => error !== "") ||
     Object.values(formValues).some((value) => value === "");
 
-  const handleCheckEmail = async () => {
-    try {
-      const message = await checkEmail(formValues.email);
-      setEmailCheckMessage(message);
+    const handleCheckEmail = () => {
       setIsEmailValid(true);
-    } catch (error) {
-      setEmailCheckMessage((error as Error).message);
-      setIsEmailValid(false);
-    } finally {
-      setModalOpen(true);
+      setEmailCheckMessage("테스트")
+      setModalOpen(true)
     }
-  };
+  // const handleCheckEmail = async () => {
+  //   try {
+  //     const message = await checkEmail(formValues.email);
+  //     setEmailCheckMessage(message);
+  //     setIsEmailValid(true);
+  //   } catch (error) {
+  //     setEmailCheckMessage((error as Error).message);
+  //     setIsEmailValid(false);
+  //   } finally {
+  //     setModalOpen(true);
+  //   }
+  // };
 
   const handleSignUp: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
