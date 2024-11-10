@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 
 
 const signUp = async (signupData: PostApiMembersRequest) => {
-  const API_URL = "/signup"
+  const API_URL = "/members"
   const response = await axiosInstance.post<GetApiMembersSignUpResponse>(API_URL,signupData);
   return response.data;
 }
@@ -22,7 +22,7 @@ export const useSignUp = () => {
 
     },
     onError:() => {
-      console.log("error");
+      console.log("sign up error");
     },
   })
 }

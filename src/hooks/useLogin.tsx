@@ -6,7 +6,7 @@ import { PostApiMembersLoginRequest, GetApiMembersSignUpResponse } from '@/lib/a
 import { useRouter } from 'next/navigation';
 
 const Login = async (loginData: PostApiMembersLoginRequest) => {
-  const API_URL = "/login"
+  const API_URL = "/members/login"
   const response = await axiosInstance.post<GetApiMembersSignUpResponse>(API_URL,loginData);
   
   return response.data;
