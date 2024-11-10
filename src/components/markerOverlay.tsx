@@ -1,23 +1,34 @@
-"use client";
+import { useState } from 'react';
 
-interface markerOverlayProps {
+type MarkerOverlayProps = {
+  onAddMarker: (name: string) => void;
   onClose: () => void;
-  onRegister: () => void;
-}
+};
 
-export default function MarkerOverlay({ onClose, onRegister }: markerOverlayProps) {
-  
+export default function MarkerOverlay({ onAddMarker, onClose }: MarkerOverlayProps) {
+  const [markerName, setMarkerName] = useState("");
+
   return (
-    <div className="p-2 bg-white border border-black rounded-md text-black">
-      <button className='' onClick={onRegister}>
-        새 마커 위치
+    <div className="bg-white p-4 border border-gray-300 rounded-lg shadow-lg">
+      <h4 className="text-lg font-semibold mb-2">Add a new marker</h4>
+      <input
+        type="text"
+        placeholder="Enter marker name"
+        value={markerName}
+        onChange={(e) => setMarkerName(e.target.value)}
+        className="mb-3 p-2 w-full border border-gray-300 rounded"
+      />
+      <button
+        onClick={() => onAddMarker(markerName)}
+        className="mr-3 px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+      >
+        Add Marker
       </button>
-      
       <button
         onClick={onClose}
-        className="mt-1 cursor-pointer bg-gray-200 hover:bg-gray-300 text-sm px-3 py-1 rounded"
+        className="px-3 py-2 bg-red-500 text-white rounded hover:bg-red-600"
       >
-        닫기
+        Close
       </button>
     </div>
   );

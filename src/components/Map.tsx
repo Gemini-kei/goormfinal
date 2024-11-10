@@ -21,7 +21,8 @@ export default function KakaoMap2({ latitude, longitude }: mapCoordinate) {
     setUserId(storedUserId);
   }, []);
 
-  useMapMarkersLoad(map, markersData?.locations || []); // 마커 데이터 전달
-
+  
+  useMapMarkersLoad({map, markersData: markersData?.locations || []}); // 마커 데이터 전달
+  
   return <div ref={mapContainerRef} className="w-full h-screen"></div>;
 }

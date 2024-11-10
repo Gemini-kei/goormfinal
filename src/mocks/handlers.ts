@@ -1,10 +1,11 @@
 // src/mocks/handlers.ts
 import {rest} from "msw";
 
+//const api_url = 'http://52.79.152.88:8080/api/'
 
 export const handlers = [
   // 회원가입 API 요청 목킹
-  rest.post('https://api.test.com/signup', async (req, res, ctx) => {
+  rest.post('http://52.79.152.88:8080/api/signup', async (req, res, ctx) => {
     const { email } = await req.json();
     
     if (email === 'test@example.com') {
@@ -24,7 +25,7 @@ export const handlers = [
     );
   }),
 
-  rest.post('https://api.test.com/check-email', async(req, res, ctx) => {
+  rest.post('http://52.79.152.88:8080/api/check-email', async(req, res, ctx) => {
     
     const {email} = await req.json();
     console.log(email)
@@ -43,7 +44,7 @@ export const handlers = [
   }),
 
   // 로그인 API 모킹
-  rest.post('https://api.test.com/login', async (req, res, ctx) => {
+  rest.post('http://52.79.152.88:8080/api/login', async (req, res, ctx) => {
     const { email, password } = await req.json();
 
     // 로그인 유효성 검사
@@ -66,7 +67,7 @@ export const handlers = [
       );
     }
   }),
-  rest.post('https://api.test.com/members', async (req, res, ctx) => {
+  rest.post('http://52.79.152.88:8080/api/members', async (req, res, ctx) => {
     const authHeader = req.headers.get('Authorization'); // Authorization 헤더에서 토큰 추출
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -106,7 +107,7 @@ export const handlers = [
   }),
 
   //로그아웃 API 모킹
-  rest.post('https://api.test.com/logout', (req, res, ctx) => {
+  rest.post('http://52.79.152.88:8080/api/logout', (req, res, ctx) => {
     // 로그아웃은 보통 별도의 요청 데이터를 확인할 필요가 없음
     return res(
       ctx.status(200),
@@ -116,7 +117,7 @@ export const handlers = [
     );
   }),
 
-  rest.get('https://api.test.com/markers', (req, res, ctx) => {
+  rest.get('http://52.79.152.88:8080/api/markers', (req, res, ctx) => {
     const userId = req.url.searchParams.get('userId'); // 쿼리 파라미터에서 userId 추출
     console.log(userId, "msw 핸들러")
     if (!userId) {

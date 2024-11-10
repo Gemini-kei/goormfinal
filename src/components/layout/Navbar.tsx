@@ -14,10 +14,15 @@ export default function NavBar() {
 
   return (
     
-    <nav className="flex items-center justify-between p-4 lg:px-6 bg-white text-black">
+    <nav className="fixed top-0 z-10 w-full flex items-center justify-between p-4 lg:px-6 bg-white text-black">
       
       <div>
-        <Link href="/">PhotoMap</Link>
+        {isLogin ? (
+          <Link href="/map">PhotoMap</Link>
+        ):
+          <Link href="/">PhotoMap</Link>
+        }
+        
         
       </div>
       
