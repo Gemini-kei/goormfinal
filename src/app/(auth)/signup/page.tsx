@@ -27,7 +27,9 @@ export default function SignUp() {
   });
 
   const [showPassword, setShowPassword] = useState(true);
-  const [emailCheckMessage, setEmailCheckMessage] = useState<string | null>(null);
+  const [emailCheckMessage, setEmailCheckMessage] = useState<string | null>(
+    null
+  );
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -61,11 +63,11 @@ export default function SignUp() {
     Object.values(errors).some((error) => error !== "") ||
     Object.values(formValues).some((value) => value === "");
 
-    const handleCheckEmail = () => {
-      setIsEmailValid(true);
-      setEmailCheckMessage("테스트")
-      setModalOpen(true)
-    }
+  const handleCheckEmail = () => {
+    setIsEmailValid(true);
+    setEmailCheckMessage("테스트");
+    setModalOpen(true);
+  };
   // const handleCheckEmail = async () => {
   //   try {
   //     const message = await checkEmail(formValues.email);
@@ -96,15 +98,24 @@ export default function SignUp() {
   };
 
   return (
-    <div className="flex w-full h-screen items-start justify-center">
-      <div className="flex flex-col items-center justify-start mt-10 pd-5 space-y-20 w-[700px] h-[700px] bg-white text-black">
-        <h1 className="text-2xl">회원 가입</h1>
-        <form className="flex flex-col space-y-2" onSubmit={handleSignUp}>
+    <div className="flex w-full h-screen items-center justify-center bg-gray-50">
+      <div className="flex flex-col items-center justify-start p-10 space-y-6 w-[380px] bg-white text-black rounded-xl shadow-xl">
+        <h1 className="text-3xl font-extrabold text-center text-gray-800">
+          회원 가입
+        </h1>
+        <form
+          className="flex flex-col space-y-4 w-full"
+          onSubmit={handleSignUp}
+        >
           <Input
             labelName="이메일"
             error={errors.email}
             right={
-              <button type="button" onClick={handleCheckEmail} className="">
+              <button
+                type="button"
+                onClick={handleCheckEmail}
+                className="py-1 px-3 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+              >
                 중복확인
               </button>
             }
@@ -129,7 +140,11 @@ export default function SignUp() {
           <Input
             labelName="비밀번호"
             right={
-              <button type="button" onClick={toggleShowPassword}>
+              <button
+                type="button"
+                onClick={toggleShowPassword}
+                className="text-sm text-gray-500 hover:text-gray-700"
+              >
                 {showPassword ? <CloseEyeicon /> : <OpenEyeicon />}
               </button>
             }
@@ -171,7 +186,11 @@ export default function SignUp() {
             placeholder="이름"
           />
 
-          <button type="submit" disabled={isButtonDisabled}>
+          <button
+            type="submit"
+            disabled={isButtonDisabled}
+            className="w-full py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 disabled:opacity-50 shadow-md"
+          >
             가입하고 시작하기
           </button>
         </form>

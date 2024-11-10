@@ -1,5 +1,6 @@
 "use client";
 
+import { KaKaoButtonSmall } from '@/components/icons/icons';
 //import KakaoMap from '@/components/KakaoMap';
 import { useLoadScript } from "./useScriptLoad";
 
@@ -73,5 +74,12 @@ export default function KakaoLoginButton() {
   if (error) return <div>{error}</div>;
   if (!isLoaded) return <div>Loading</div>;
 
-  return <button onClick={handleKakaoLogin}>카카오 로그인</button>;
+  return (
+    <div className="w-full flex justify-center">
+      <button onClick={handleKakaoLogin} className="w-full max-w-[300px]">
+        <KaKaoButtonSmall />
+      </button>
+    </div>
+  )
+  
 }

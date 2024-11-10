@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useState } from "react";
 import {
   CloseEyeicon,
-  KaKaoButtonSmall,
   OpenEyeicon,
 } from "@/components/icons/icons";
 import Input from "@/components/Input";
@@ -38,7 +37,7 @@ export default function Login() {
   };
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     login({
       email: formData.email,
       password: formData.password,
@@ -46,10 +45,11 @@ export default function Login() {
   };
 
   return (
-    <div className="flex w-full h-screen items-start justify-center">
-      <div className="flex flex-col items-center justify-start mt-10 pd-5 space-y-5 w-[700px] h-[700px] bg-white text-black">
-        <h1 className="text-2xl">로그인</h1>
-        <form className="flex flex-col space-y-2" onSubmit={handleLogin}>
+    <div className="flex w-full h-screen items-center justify-center bg-gray-50">
+      <div className="flex flex-col items-center justify-start p-8 space-y-6 w-[400px] bg-white text-black rounded-lg shadow-xl">
+        <h1 className="text-3xl font-bold text-gray-800">로그인</h1>
+        <p className="text-sm text-gray-600">계정 정보를 입력해주세요.</p>
+        <form className="flex flex-col space-y-4 w-full" onSubmit={handleLogin}>
           <Input
             labelName="이메일"
             right={null}
@@ -59,7 +59,7 @@ export default function Login() {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            required
+            // required
             maxLength={22}
             placeholder="이메일 주소"
           />
@@ -67,7 +67,11 @@ export default function Login() {
           <Input
             labelName="비밀번호"
             right={
-              <button type="button" onClick={toggleShowPassword}>
+              <button
+                type="button"
+                onClick={toggleShowPassword}
+                className="text-sm text-gray-500 hover:text-gray-700"
+              >
                 {showPassword ? <CloseEyeicon /> : <OpenEyeicon />}
               </button>
             }
@@ -77,21 +81,22 @@ export default function Login() {
             name="password"
             value={formData.password}
             onChange={handleChange}
-            required
+            // required
             placeholder="비밀번호"
           />
-
+          {/* <div className="flex justify-between items-center text-sm text-gray-500">
+            <Link href="/reset-password" className="hover:text-blue-500">
+              비밀번호를 잊으셨나요?
+            </Link>
+          </div> */}
           <div className="flex flex-col min-h-20">
-            <button type="submit">로그인</button>
+            <button type="submit" className='w-full py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 disabled:opacity-50'>로그인</button>
           </div>
         </form>
-        <div className="flex flex-col min-h-20">
-          <Link href="/signup">회원가입</Link>
-        </div>
+
+        <p className="text-sm text-gray-500">계정이 없으신가요? <Link href="/signup" className="text-blue-500 hover:underline">회원가입</Link></p>
+
         <KakaoLoginButton />
-        <button type="button">
-          <KaKaoButtonSmall />
-        </button>
       </div>
     </div>
   );
