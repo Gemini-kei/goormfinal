@@ -5,7 +5,7 @@ import { axiosInstance } from '@/components/axiosInstance';
 import { useRouter } from 'next/navigation';
 
 const Logout = async () => {
-  const API_URL = "/logout"
+  const API_URL = "/members/logout"
   const response = await axiosInstance.post(API_URL);
   
   return response.data;
