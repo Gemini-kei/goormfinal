@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // axios 인스턴트
 export const axiosInstance = axios.create({
-  baseURL: 'http://52.79.152.88:8080/api/', // api 기본 도메인 
+  baseURL: 'https://52.79.152.88:8080/api/', // api 기본 도메인 
   headers:{
     'Content-Type': 'application/json',
   }
