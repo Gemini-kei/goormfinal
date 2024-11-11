@@ -6,6 +6,7 @@ const appkey =process.env.SECRET_KAKAO_APP_KEY // Kakao API 키를 입력하세�
 const src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${appkey}&autoload=false`;
 
 export default function Layout({ children }: React.PropsWithChildren) {
+  console.log("layout등장")
   return (
     <>
 

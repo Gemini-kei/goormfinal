@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       onSuccess: (data) => {
           localStorage.setItem('accessToken', data.accessToken)
           setAccessToken(data.accessToken)
-          console.log("success", data);
+          console.log("success", data, accessToken);
           setIsLogin(true);
           router.push('/map');
   

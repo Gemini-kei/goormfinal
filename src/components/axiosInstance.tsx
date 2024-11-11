@@ -25,6 +25,10 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   (response) => {
+    const token = response.headers['authorization'];
+    if(token) {
+      localStorage.setItem('accessToken', token)
+    }
     return response;
   },
   (error) => {
