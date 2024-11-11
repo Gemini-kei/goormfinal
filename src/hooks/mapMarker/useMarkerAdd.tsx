@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { PostLocationsGroupsIdRequest, PostLocationsGroupsIdResponse} from '@/lib/groupType';
+import { PostLocationsGroupsIdRequest, PostLocationsGroupsIdResponseList} from '@/lib/groupType';
 
-const addMarker = async (marker: PostLocationsGroupsIdRequest): Promise<PostLocationsGroupsIdResponse> => {
-  const response = await axios.post<PostLocationsGroupsIdResponse>("/api/markers", marker); // 마커 추가 API 호출
+const addMarker = async (marker: PostLocationsGroupsIdRequest): Promise<PostLocationsGroupsIdResponseList> => {
+  const response = await axios.post<PostLocationsGroupsIdResponseList>("/api/markers", marker); // 마커 추가 API 호출
   return response.data; // 새 마커 데이터 반환
 };
 
@@ -11,10 +11,10 @@ const addMarker = async (marker: PostLocationsGroupsIdRequest): Promise<PostLoca
 export const useAddMarkerMutation = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<PostLocationsGroupsIdResponse, Error, PostLocationsGroupsIdRequest>({
+  return useMutation<PostLocationsGroupsIdResponseList, Error, PostLocationsGroupsIdRequest>({
     mutationFn: addMarker, 
     onSuccess: (newMarker) => {
-      queryClient.setQueryData<PostLocationsGroupsIdResponse[]>(["markers"], (oldMarkers = []) => [
+      queryClient.setQueryData<PostLocationsGroupsIdResponseList[]>(["markers"], (oldMarkers = []) => [
         ...oldMarkers,
         newMarker,
       ]);
