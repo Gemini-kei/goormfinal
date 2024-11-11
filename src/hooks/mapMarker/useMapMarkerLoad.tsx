@@ -4,6 +4,7 @@ import MarkerOverlay from '@/components/markerOverlay';
 import { createRoot } from 'react-dom/client';
 
 type MarkerData = {
+  id:number;
   groupId:number;
   latitude: number;
   longitude: number;
