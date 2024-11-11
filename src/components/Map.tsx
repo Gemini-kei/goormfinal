@@ -10,12 +10,10 @@ type mapCoordinate = {
   longitude: number;
 };
 
-export default function KakaoMap2({ latitude, longitude }: mapCoordinate) {
+export default function KakaoMap({ latitude, longitude }: mapCoordinate) {
   const { map, mapContainerRef } = useMap({ latitude, longitude });
 
-  const token = localStorage.getItem("accessToken");
-
-  const { data, isLoading, isError } = useMarkersLoad(token);
+  const { data, isLoading, isError } = useMarkersLoad();
 
   if (isLoading) {
     console.log("Loading...");

@@ -26,6 +26,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
+  useEffect(() => {
+    if (!isLogin) {
+      localStorage.removeItem("accessToken")
+    }
+  },[isLogin])
+
   const login =  async (loginData: { email: string; password: string }) => {
     loginMutation.mutate(loginData, {
       onSuccess: (data) => {
