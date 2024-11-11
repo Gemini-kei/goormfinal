@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+export const config = {
+  matcher: ['/api/proxy/:path*'], // 이 경로에 대해서만 적용
+};
+
 export async function GET(req: NextRequest) {
   return handleProxyRequest(req);
 }
@@ -22,6 +26,8 @@ export async function DELETE(req: NextRequest) {
 }
 
 async function handleProxyRequest(req: NextRequest) {
+  console.log('Request received at proxy server');
+
   const { pathname, searchParams } = new URL(req.url);
   const path = pathname.replace('/api/proxy', ''); // `/api/proxy` 제거
   
