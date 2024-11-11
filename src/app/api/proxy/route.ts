@@ -29,6 +29,8 @@ async function handleProxyRequest(req: NextRequest) {
   
   const { pathname, searchParams } = new URL(req.url);
   const path = pathname.replace('/api/proxy', ''); // `/api/proxy` 제거
+
+  console.log('Path after replacement:', path); // 로그 추가
   
   const backendUrl = `${process.env.NEXT_PUBLIC_API_URL}${path}?${searchParams}`;
 

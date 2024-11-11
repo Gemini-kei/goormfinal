@@ -49,7 +49,7 @@ interface KakaoApiRequestOptions<T> {
 const appkey = process.env.NEXT_PUBLIC_KAKAO_APP_KEY || ""
 
 export default function KakaoLoginButton() {
-  const src = "https://developers.kakao.com/sdk/js/kakao.min.js";
+  const src = "https://developers.kakao.com/sdk/js/kakao.js";
   const { isLoaded, error } = useLoadScript(src, () => {
     if (window.Kakao && !window.Kakao.isInitialized()) {
       window.Kakao.init(appkey);
