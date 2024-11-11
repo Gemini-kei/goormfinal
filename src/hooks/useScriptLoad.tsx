@@ -19,7 +19,7 @@ export const useLoadScript = (src: string, onLoadCallback?: () => void) => {
     const script = document.createElement("script");
     script.src = src;
     script.type = "text/javascript";
-    script.async = true;
+    // script.async = true;
 
     script.onload = () => {
       isScriptLoad.current = true;
