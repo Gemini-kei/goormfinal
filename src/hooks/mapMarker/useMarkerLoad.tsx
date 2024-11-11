@@ -3,15 +3,26 @@ import { PostLocationsGroupsIdResponseList } from "@/lib/groupType";
 import { axiosInstance } from "@/components/axiosInstance";
 import { useAuth } from '@/context/AuthContext';
 
+export type ApiResponse<T> = {
+  code: number;
+  status: string;
+  message: string;
+  data: T;
+};
+
 const fetchMarkers = async (accessToken: string): Promise<PostLocationsGroupsIdResponseList> => {
-  const response = await axiosInstance.get<PostLocationsGroupsIdResponseList>(
+  // console.log("fetchMarkers accessToken", accessToken)
+  const response = await axiosInstance.get<ApiResponse<PostLocationsGroupsIdResponseList>>(
     "/locations",
   {
     headers:{
       Authorization: `Bearer ${accessToken}`,
     }
   });
-  return response.data;
+  // console.log("fetchMarkers response.data", response.data, typeof response.data)
+
+  console.log("fetchMarkers",response.data, "typeof", typeof response.data)
+  return response.data.data;
 };
 export const useMarkersLoad = () => {
   const {accessToken } = useAuth();

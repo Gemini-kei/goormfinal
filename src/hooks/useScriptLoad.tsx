@@ -24,7 +24,7 @@ export const useLoadScript = (src: string, onLoadCallback?: () => void) => {
     script.onload = () => {
       isScriptLoad.current = true;
       setIsLoaded(true);
-      console.log("onload script")
+      // console.log("onload script")
       if (OnLoadCallbackRef.current) OnLoadCallbackRef.current();
     };
 

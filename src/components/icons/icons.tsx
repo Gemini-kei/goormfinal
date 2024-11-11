@@ -94,7 +94,7 @@ export const KaKaoButtonBig = () => {
 export const KaKaoButtonSmall = () => {
   return (
     <svg
-      className='w-full h-auto'
+      className="w-full h-auto"
       viewBox="0 0 300 45"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -125,4 +125,24 @@ export const KaKaoButtonSmall = () => {
       </defs>
     </svg>
   );
+};
+
+export const Xicon = () => {
+  return (
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    strokeWidth={2}
+    stroke="currentColor"
+    className="w-5 h-5 text-gray-600"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M6 18L18 6M6 6l12 12"
+    />
+  </svg>
+  );
+  
 };

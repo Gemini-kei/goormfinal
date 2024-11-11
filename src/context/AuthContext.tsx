@@ -2,7 +2,7 @@
 
 import { createContext, useState, useContext, ReactNode, useEffect } from "react";
 import { useLogin } from "@/hooks/useLogin";
-import { useLogout } from "@/hooks/useLogout";
+// import { useLogout } from "@/hooks/useLogout";
 import { useRouter } from 'next/navigation';
 
 interface AuthContextType {
@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const router = useRouter();
   const loginMutation = useLogin(); // useLogin 훅 사용
-  const logoutMutation = useLogout(); // useLogout 훅 사용
+  // const logoutMutation = useLogout(); // useLogout 훅 사용
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -38,9 +38,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login =  async (loginData: { email: string; password: string }) => {
     loginMutation.mutate(loginData,{
       onSuccess: (data) => {
-          localStorage.setItem('accessToken', data.accessToken)
-          setAccessToken(data.accessToken)
-          console.log("success", data, accessToken);
+          
+          setAccessToken(localStorage.getItem('accessToken'))
+
+          console.log("success data: ", data.accessToken,"accessToken : ", localStorage.getItem('accessToken'));
           setIsLogin(true);
           router.push('/map');
   
@@ -50,27 +51,27 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       },});
   };
 
-  const logout = async () => {
-    logoutMutation.mutate(undefined,{   
-      onSuccess: () => {
-          localStorage.removeItem('accessToken');
-          setAccessToken(null);
-          setIsLogin(false)
-          console.log("logout success");
-          router.push('/');
+  // const logout = async () => {
+  //   logoutMutation.mutate(undefined,{   
+  //     onSuccess: () => {
+  //         localStorage.removeItem('accessToken');
+  //         setAccessToken(null);
+  //         setIsLogin(false)
+  //         console.log("logout success");
+  //         router.push('/');
   
-      },
-      onError:() => {
-        console.log("error");
-      },});
-  };
+  //     },
+  //     onError:() => {
+  //       console.log("error");
+  //     },});
+  // };
 
-  // const logout = () => {
-  //   setAccessToken(null);
-  //   setIsLogin(false)
-  //   console.log("logout")
-  //   router.push('/');
-  // }
+  const logout = () => {
+    setAccessToken(null);
+    setIsLogin(false)
+    console.log("logout")
+    router.push('/');
+  }
   return (
     <AuthContext.Provider value={{ isLogin, accessToken, setIsLogin, login, logout }}>
       {children}

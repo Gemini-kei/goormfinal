@@ -13,6 +13,7 @@ export const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     const accessToken = localStorage.getItem('accessToken'); // accessToken 가져오기
+    // console.log(accessToken)
     if (accessToken) {
       config.headers['Authorization'] = `Bearer ${accessToken}`; // 헤더에 토큰 추가
     }
@@ -25,7 +26,8 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   (response) => {
-    const token = response.headers['authorization'];
+    const token = response.headers.authorization
+    // console.log(response.headers, token)
     if(token) {
       localStorage.setItem('accessToken', token)
     }
