@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useState, useContext, ReactNode } from "react";
+import { createContext, useState, useContext, ReactNode, useEffect } from "react";
 import { useLogin } from "@/hooks/useLogin";
 import { useLogout } from "@/hooks/useLogout";
 
@@ -19,7 +19,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const loginMutation = useLogin(); // useLogin 훅 사용
   const logoutMutation = useLogout(); // useLogout 훅 사용
 
-  const login = (loginData: { email: string; password: string }) => {
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      setIsLogin(true);
+    }
+  }, []);
+
+  const login =  async (loginData: { email: string; password: string }) => {
     loginMutation.mutate(loginData, {
       onSuccess: (data) => {
         localStorage.setItem("accessToken", data.accessToken); // 로그인 성공 시 토큰 저장
@@ -32,7 +39,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const logout = () => {
+  const logout = async () => {
     logoutMutation.mutate(undefined, {
       onSuccess: () => {
         localStorage.removeItem("accessToken");
