@@ -1,8 +1,10 @@
 import axios from 'axios';
 
 // axios 인스턴트
+
+const base_api_url = "/api/proxy"
 export const axiosInstance = axios.create({
-  baseURL: '/api/proxy', // api 기본 도메인 
+  baseURL: base_api_url, // api 기본 도메인 
   headers:{
     'Content-Type': 'application/json',
   }
