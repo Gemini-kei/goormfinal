@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo} from "react";
+import { useMemo, useEffect} from "react";
 import { useMarkersLoad } from "@/hooks/mapMarker/useMarkerLoad";
 import { useMap } from "@/hooks/useMap";
 import { useMapMarkersLoad } from "@/hooks/mapMarker/useMapMarkerLoad";
@@ -33,6 +33,16 @@ export default function KakaoMap({ latitude, longitude }: mapCoordinate) {
       longitude: item.longitude,
     }));
   }, [data]);
+
+  useEffect(() => {
+    if (map && markersData.length > 0) {
+      const firstMarkerPosition = new window.kakao.maps.LatLng(
+        markersData[0].latitude,
+        markersData[0].longitude
+      );
+      map.setCenter(firstMarkerPosition);
+    }
+  }, [map, markersData]);
   useMapMarkersLoad({ map, markersData: markersData }); // 마커 데이터 전달
 
   return <div ref={mapContainerRef} className="w-full h-screen"></div>;
