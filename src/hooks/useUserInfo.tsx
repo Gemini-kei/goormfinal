@@ -8,7 +8,7 @@ const fetchUserInfo = async (accessToken: string | null) => {
     headers.Authorization = `Bearer ${accessToken}`;
   }
 
-  const response = await axiosInstance.get('/members', { headers });
+  const response = await axiosInstance.get('/members/info', { headers });
   return response.data;
 };
 

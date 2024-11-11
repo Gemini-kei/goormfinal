@@ -48,3 +48,10 @@ export type GetApiMembersSignUpResponse = {
   message: string,
   userId: string,
 }
+
+export type GetApiMembersEmailCheckResponse = {
+  
+    isDuplicate : boolean,
+    message : string
+
+}

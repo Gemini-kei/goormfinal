@@ -70,9 +70,9 @@ export default function SignUp() {
   };
   // const handleCheckEmail = async () => {
   //   try {
-  //     const message = await checkEmail(formValues.email);
+  //     const { isDuplicate : boolean, message : string} = await checkEmail(formValues.email);
   //     setEmailCheckMessage(message);
-  //     setIsEmailValid(true);
+  //     setIsEmailValid(isDuplicate);
   //   } catch (error) {
   //     setEmailCheckMessage((error as Error).message);
   //     setIsEmailValid(false);
