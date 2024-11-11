@@ -5,7 +5,7 @@ import { use, Suspense } from "react";
 
 const mswPromise = 
   typeof window !== "undefined"
-    && process.env.NODE_ENV === "development"
+    && process.env.NODE_ENV === "development" && false
     ? import("../mocks/browser").then(async ({ worker }) => { 
       await worker?.start({
             onUnhandledRequest: "bypass",

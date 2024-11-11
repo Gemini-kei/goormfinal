@@ -26,8 +26,7 @@ export async function DELETE(req: NextRequest) {
 }
 
 async function handleProxyRequest(req: NextRequest) {
-  console.log('Request received at proxy server');
-
+  
   const { pathname, searchParams } = new URL(req.url);
   const path = pathname.replace('/api/proxy', ''); // `/api/proxy` 제거
   
