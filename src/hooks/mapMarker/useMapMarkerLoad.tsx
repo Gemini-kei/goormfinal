@@ -81,7 +81,22 @@ export function useMapMarkersLoad({ map, markersData }: UseMapMarkerLoadProps) {
     },
     [map, markersRef, customOverlays, addMarker, groupId]
   );
-
+  useEffect(() => {
+    if (map) {
+      // 맵 클릭 시 기존 오버레이 모두 닫기
+      const handleMapClick = () => {
+        customOverlays.current.forEach((overlay) => overlay.setMap(null));
+        overlayRef.current?.setMap(null); // 등록 중인 Overlay 닫기
+      };
+  
+      kakao.maps.event.addListener(map, "click", handleMapClick);
+  
+      return () => {
+        kakao.maps.event.removeListener(map, "click", handleMapClick);
+      };
+    }
+  }, [map, customOverlays]);
+  
   useEffect(() => {
     if (map) {
       // 기존 마커 초기화
