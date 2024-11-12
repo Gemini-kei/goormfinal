@@ -33,34 +33,11 @@ export const useDeleteImage = (locationId: number) => {
       return id
     }, 
     onSuccess: (deletedImageId: number) => {
-      queryClient.setQueryData<PostPhotosPhotoIdResponseList[]>(
+      queryClient.setQueryData<PostPhotosPhotoIdResponseList>(
         ["images", locationId],
-        (oldImages = []) => {
-          // 데이터 구조 확인을 위한 콘솔 출력
-          console.log("oldImages:", oldImages); // oldImages가 배열인지 확인
-          console.log("deletedImageId:", deletedImageId); // 삭제할 ID 확인
-      
-          if (!Array.isArray(oldImages)) {
-            console.error("oldImages is not an array.");
-            return [];
-          }
-      
-          // 각 항목의 구조를 확인
-          oldImages.forEach((image, index) => {
-            console.log(`Image at index ${index}:`, image);
-          });
-          return []
-          // return trueoldImages.filter((image) => image.id !== deletedImageId);
-        }
-      );
-      
-      // 삭제 성공 시 이미지 목록 갱신
-      // queryClient.setQueryData<PostPhotosPhotoIdResponseList[]>(
-      //   ["images", locationId],
-      //   (oldImages = []) => oldImages.filter((image)=> image[0].id image.id !== deletedImageId)
-        
-      // );
-      
+        (oldImages = []) => 
+          oldImages.filter((image) => image.id !== deletedImageId)
+      )
     },
 
     onError: (error) => {
