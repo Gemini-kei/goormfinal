@@ -21,8 +21,11 @@ export default function GalleryOverlay({
   const { data, isLoading, isError } = useImagesLoad(locationId);
 
   const [selectedIds, setSelectedIds] = useState<number[]>([]); // 한 개의 이미지 ID 상태
-
+  
+  const [modalImageIndex, setModalImageIndex] = useState<number | null>(null);
+  
   const [modalImageUrl, setModalImageUrl] = useState<string | null>(null); // 모달 이미지 상태
+  
   const [isDeleteMode, setIsDeleteMode] = useState<boolean>(false); // 삭제 모드 상태
   const overlayRef = useRef<HTMLDivElement>(null);
 
@@ -32,13 +35,10 @@ export default function GalleryOverlay({
       prevIds.includes(id) ? prevIds.filter((prevId) => prevId !== id) : [...prevIds, id]
     );
   };
-  const handleImageClick = (imageUrl: string) => {
+  const handleImageClick = (index: number) => {
     if (!isDeleteMode) {
-      console.log("Image clicked:", imageUrl); // 로그 추가
-      setModalImageUrl(imageUrl); // 삭제 모드가 아니면 모달 열기
-    } else{
-      console.log("Image not open:"); // 로그 추가
-    }
+      setModalImageIndex(index); // 삭제 모드가 아니면 모달 열기
+    } 
   };
 
   useEffect(() => {
@@ -88,11 +88,10 @@ export default function GalleryOverlay({
             key = {image.id || index}
             className="relative cursor-pointer"
             onClick={() => {
-              if (!isDeleteMode) handleImageClick(image.url); // 삭제 모드가 아닐 때만 확대
+              if (!isDeleteMode) handleImageClick(index); // 삭제 모드가 아닐 때만 확대
             }}
           >
             <img
-              key={image.id || index}
               src={image.url}
               alt={image.fileName}
               className="w-full h-24 object-cover rounded shadow-sm"
@@ -135,10 +134,20 @@ export default function GalleryOverlay({
           )}
       </div>
       {/* 모달 컴포넌트 */}
-      {modalImageUrl && (
+      {modalImageIndex !== null && (
         <ImageModal
-          imageUrl={modalImageUrl}
-          onClose={() => setModalImageUrl(null)} // 모달 닫기
+          imageUrl={data[modalImageIndex].url}
+          onClose={() => setModalImageIndex(null)}
+          onNext={() =>
+            setModalImageIndex((prev) =>
+              prev === null || prev >= data.length - 1 ? 0 : prev + 1
+            )
+          }
+          onPrev={() =>
+            setModalImageIndex((prev) =>
+              prev === null || prev <= 0 ? data.length - 1 : prev - 1
+            )
+          }
         />
       )}
     </div>
