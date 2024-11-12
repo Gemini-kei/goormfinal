@@ -2,7 +2,7 @@
 
 import { useChangePassword } from "@/hooks/useChangePassword";
 import { useFetchUserInfo } from "@/hooks/useUserInfo"; // 가져온 훅
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDeleteAccount } from "@/hooks/useUserDelete";
 
 export default function UserInfo() {
@@ -28,7 +28,7 @@ export default function UserInfo() {
     }
 
     if (newPassword !== newPasswordConfirm) {
-      setPasswordError("새 비밀번호가 일치하지 않습니다.")
+      setPasswordError("새 비밀번호가 일치하지 않습니다.");
       return;
     }
 
@@ -68,40 +68,39 @@ export default function UserInfo() {
               <span className="text-gray-900">{name}</span>
             </div>
           </div>
-          
-            <div className="space-y-4">
-              <input
-                type="password"
-                placeholder="현재 비밀번호"
-                value={oldPassword}
-                onChange={(e) => setOldPassword(e.target.value)}
-                className="w-full p-3 border rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <input
-                type="password"
-                placeholder="새 비밀번호"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                className="w-full p-3 border rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <input
-                type="password"
-                placeholder="새 비밀번호 확인"
-                value={newPasswordConfirm}
-                onChange={(e) => setNewPassword(e.target.value)}
-                className="w-full p-3 border rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              {passwordError && (
+
+          <div className="space-y-4">
+            <input
+              type="password"
+              placeholder="현재 비밀번호"
+              value={oldPassword}
+              onChange={(e) => setOldPassword(e.target.value)}
+              className="w-full p-3 border rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <input
+              type="password"
+              placeholder="새 비밀번호"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              className="w-full p-3 border rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <input
+              type="password"
+              placeholder="새 비밀번호 확인"
+              value={newPasswordConfirm}
+              onChange={(e) => setNewPassword(e.target.value)}
+              className="w-full p-3 border rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            {passwordError && (
               <p className="text-red-500 text-sm">{passwordError}</p>
             )}
-              <button
-                onClick={handlePasswordChange}
-                className="w-full bg-green-600 text-white font-medium py-3 rounded-lg hover:bg-green-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-green-500"
-              >
-                비밀번호 변경
-              </button>
-            </div>
-          
+            <button
+              onClick={handlePasswordChange}
+              className="w-full bg-green-600 text-white font-medium py-3 rounded-lg hover:bg-green-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-green-500"
+            >
+              비밀번호 변경
+            </button>
+          </div>
 
           <button
             onClick={handleDeleteAccount}

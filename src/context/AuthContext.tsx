@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login =  async (loginData: { email: string; password: string }) => {
     loginMutation.mutate(loginData,{
-      onSuccess: (data) => {
+      onSuccess: () => {
           
           setAccessToken(localStorage.getItem('accessToken'))
           setIsLogin(true);
