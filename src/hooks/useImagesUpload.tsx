@@ -16,8 +16,8 @@ export const confirmUpload = async (photoId: number, uploadStatus: boolean): Pro
   const response = await axiosInstance.post<
   ApiResponse<PostPhotosPhotoIdResponseList>
 >(
-    `/photos/${photoId}`,
-    uploadStatus
+    `/photos/${photoId}`,{uploadStatus}
+    
   );
   
   return response.data.data; // 서버에서 반환되는 응답
