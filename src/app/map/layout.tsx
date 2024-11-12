@@ -1,4 +1,5 @@
 
+import ReactQueryProvider from '@/components/queryClientProvider';
 import Script from "next/script";
 
 const appkey =process.env.SECRET_KAKAO_APP_KEY // Kakao API 키를 입력하세요
@@ -15,7 +16,10 @@ export default function Layout({ children }: React.PropsWithChildren) {
         strategy='beforeInteractive'
         type="text/javascript"
       />
-      {children}
+<ReactQueryProvider>      
+        {children}
+      </ReactQueryProvider>
+      
     </>
   );
 }

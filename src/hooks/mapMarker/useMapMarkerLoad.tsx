@@ -2,6 +2,8 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import GalleryOverlay from '@/components/markerGallery';
 import MarkerOverlay from '@/components/markerOverlay';
 import { createRoot } from 'react-dom/client';
+import { useAddMarkerMutation } from './useMarkerAdd';
+import ReactQueryProvider from '@/components/queryClientProvider';
 
 type MarkerData = {
   id:number;
@@ -17,11 +19,16 @@ type UseMapMarkerLoadProps = {
 };
 
 export function useMapMarkersLoad({ map, markersData }: UseMapMarkerLoadProps) {
+
+  const {mutate:addMarker}= useAddMarkerMutation();
   const markersRef = useRef<kakao.maps.Marker[]>([]);
   const overlayRef = useRef<kakao.maps.CustomOverlay | null>(null);
   const [overlayPosition, setOverlayPosition] = useState<kakao.maps.LatLng | null>(null);
   const customOverlays = useRef<kakao.maps.CustomOverlay[]>([]); // 기존 오버레이 관리
-  
+  // const [selectedGroupId, setSelectedGroupId] = useState<number | null>(null); // 특정그룹 선택할때 사용
+
+  const groupId = markersData.length > 0 ? markersData[0].groupId : 5; // 기본 그룹 ID 설정
+
   const handleAddMarker = useCallback(
     (name: string, position: kakao.maps.LatLng) => {
       if (map) {
@@ -43,10 +50,13 @@ export function useMapMarkersLoad({ map, markersData }: UseMapMarkerLoadProps) {
         });
   
         root.render(
+          <ReactQueryProvider>
           <GalleryOverlay
             name={name}
+            locationId = {markersData.length + 1}
             onClose={() => newCustomOverlay.setMap(null)}
           />
+          </ReactQueryProvider>
         );
   
         customOverlays.current.push(newCustomOverlay);
@@ -56,10 +66,19 @@ export function useMapMarkersLoad({ map, markersData }: UseMapMarkerLoadProps) {
         });
   
         overlayRef.current?.setMap(null); // MarkerOverlay 닫기
+         // 서버에 마커 데이터 추가 요청
+      
+      addMarker({marker:{name,
+        latitude: position.getLat(),
+        longitude: position.getLng(),},
+        
+        groupId, // 예시: 그룹 ID
+      })
       }
     },
-    [map, markersRef, customOverlays]
+    [map, markersRef, customOverlays, addMarker, groupId]
   );
+
   useEffect(() => {
     if (map) {
       // 기존 마커 초기화
@@ -76,10 +95,13 @@ export function useMapMarkersLoad({ map, markersData }: UseMapMarkerLoadProps) {
         const overlayDiv = document.createElement("div");
         const root = createRoot(overlayDiv);
         root.render(
+          <ReactQueryProvider>
           <GalleryOverlay
             name={markerData.name || "Unnamed Marker"}
+            locationId={markerData.id}
             onClose={() => customOverlay.setMap(null)}
           />
+          </ReactQueryProvider>
         );
 
         const customOverlay = new window.kakao.maps.CustomOverlay({

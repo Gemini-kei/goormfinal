@@ -7,13 +7,13 @@ export type PatchGroupsIdRequest = {
 }
 
 export type PostLocationsGroupsIdRequest = {
-  locationName: string
+  name: string
   latitude: number
   longitude: number
 }
 
 export type LocationData = {
-  id: number;
+  id: number;         // location id
   groupId: number;
   name: string;
   latitude: number;

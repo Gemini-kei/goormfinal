@@ -3,6 +3,7 @@
 import { KaKaoButtonSmall } from '@/components/icons/icons';
 //import KakaoMap from '@/components/KakaoMap';
 import { useLoadScript } from "./useScriptLoad";
+import { axiosInstance } from '@/components/axiosInstance';
 
 declare global {
   interface Window {
@@ -62,6 +63,7 @@ export default function KakaoLoginButton() {
       window.Kakao.Auth.login({
         success: (authObj) => {
           console.log("Kakao 로그인 성공:", authObj);
+          sendTokenToBackend(authObj.access_token)
           // authObj에 포함된 access_token을 백엔드 서버로 전송하여 검증 및 처리
         },
         fail: (err) => {
@@ -83,3 +85,11 @@ export default function KakaoLoginButton() {
   )
   
 }
+const sendTokenToBackend = async (accessToken: string) => {
+  try {
+    const response = await axiosInstance.post('/api/members/login/kakao', { accessToken });
+    console.log("Login success, JWT:", response.data.token); // 백엔드에서 받은 JWT
+  } catch (error) {
+    console.error("Backend login failed:", error);
+  }
+};
