@@ -11,12 +11,12 @@ export type ApiResponse<T> = {
   data: T;
 };
 
-export const confirmUpload = async (locationId: number, uploadStatus: boolean): Promise<PostPhotosPhotoIdResponseList> => {
+export const confirmUpload = async (photosId: number, uploadStatus: boolean): Promise<PostPhotosPhotoIdResponseList> => {
   
   const response = await axiosInstance.post<
   ApiResponse<PostPhotosPhotoIdResponseList>
 >(
-    `/photos/locations/${locationId}`,
+    `/photos/photos/${photosId}`,
     uploadStatus
   );
   
@@ -69,18 +69,21 @@ export const useUploadImage = (locationId: number) => {
       const data  = await requestPresignedUrl(locationId, fileName, fileExtension)
       
       const url = data.url
+      const photosId = data.id
 
       const uploadStatus = await upLoadToS3(url, file);
       // const uploadStatus = true
-  
-      return await confirmUpload(locationId, uploadStatus)
+      
+      return await confirmUpload(photosId, uploadStatus)
     }, 
     onSuccess: (newImages) => {
       // 업로드 성공 시 이미지 목록 갱신
       queryClient.setQueryData<PostPhotosPhotoIdResponseList[]>(
         ["images", locationId],
         (oldImages = []) => [...oldImages, newImages]
+        
       );
+      console.log("업로드 성공시")
     },
 
     onError: (error) => {
