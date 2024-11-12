@@ -62,7 +62,7 @@ export default function GalleryOverlay({
   return (
     <div
       ref={overlayRef}
-      className="-top-96 left-10 p-4 bg-white border border-gray-300 rounded-md shadow-lg text-black w-[300px] absolute"
+      className="top-2 left-2 p-4 bg-white border border-gray-300 rounded-md shadow-lg text-black w-[300px] absolute"
       // style={{ top: "20px", left: "20px" }} // 기본 위치 설정
     >
       {/* 제목 영역 */}
@@ -78,7 +78,7 @@ export default function GalleryOverlay({
       </button>
       {/* 이미지 그리드 영역 */}
       <div
-        className="grid grid-cols-3 gap-2 mb-4 h-[300px] overflow-y-auto pr-4"
+        className="grid grid-cols-3 gap-2 mb-4 max-h-[300px] overflow-y-auto pr-4"
         onWheel={(e) => {
           e.stopPropagation(); // 부모 요소로 이벤트가 전파되지 않도록 막음
         }}
