@@ -21,7 +21,6 @@ const fetchMarkers = async (accessToken: string): Promise<PostLocationsGroupsIdR
   });
   // console.log("fetchMarkers response.data", response.data, typeof response.data)
 
-  console.log("fetchMarkers",response.data, "typeof", typeof response.data)
   return response.data.data;
 };
 export const useMarkersLoad = () => {

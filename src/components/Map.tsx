@@ -46,6 +46,6 @@ export default function KakaoMap({ latitude, longitude }: mapCoordinate) {
     }
   }, [map, markersData]);
   useMapMarkersLoad({ map, markersData: markersData }); // 마커 데이터 전달
-  console.log("markersData", markersData);
+  // console.log("markersData", markersData);
   return <div ref={mapContainerRef} className="w-full h-screen"></div>;
 }

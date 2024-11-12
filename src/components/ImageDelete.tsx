@@ -25,8 +25,7 @@ const ImageDelete = ({ locationId }: { locationId: number }) => {
         className="hidden" 
       />
       </label>
-      {uploadMutation.isError && <p className="text-red-500 text-sm mt-2">Error uploading image</p>}
-      {uploadMutation.isSuccess && <p className="text-red-500 text-sm mt-2">Image uploaded successfully!</p>}
+      
     </div>
   );
 };

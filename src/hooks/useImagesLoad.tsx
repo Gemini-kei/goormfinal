@@ -15,6 +15,7 @@ export const fetchImages = async (
   const response = await axiosInstance.get<
     ApiResponse<PostPhotosPhotoIdResponseList>
   >(`/photos/locations/${locationId}`);
+  console.log("처음 이미지 업로드 데이터", response.data.data)
   return response.data.data;
 };
 

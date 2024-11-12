@@ -1,6 +1,7 @@
 import { axiosInstance } from "@/components/axiosInstance";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { PostPhotosPhotoIdResponseList } from "@/lib/photoType";
+import { PostPhotosPhotoIdResponse } from '@/lib/photoType';
 import axios from 'axios';
 
 export type ApiResponse<T> = {
@@ -18,7 +19,7 @@ export const confirmUpload = async (locationId: number, uploadStatus: boolean): 
     `/photos/locations/${locationId}`,
     uploadStatus
   );
-  console.log("오류 확인 업로드 확인")
+  
   return response.data.data; // 서버에서 반환되는 응답
 };
 
@@ -26,20 +27,20 @@ export const requestPresignedUrl = async (
   locationId: number,
   fileName: string,
   fileExtension: string
-): Promise<PostPhotosPhotoIdResponseList> => {
-  console.log("오류 확인 url받기")
+): Promise<PostPhotosPhotoIdResponse> => {
+  
   const response = await axiosInstance.post<
-    ApiResponse<PostPhotosPhotoIdResponseList>
-  >(`/photos/locations/${locationId}/presigned-url`, {
+    ApiResponse<PostPhotosPhotoIdResponse>
+  >(`/photos/locations/${locationId}`, {
     fileName,
     fileExtension,
   });
-
-  return response.data.data; // { url: string, fields: object, otherInfo: any }
+  
+    return response.data.data; // { url: string, fields: object, otherInfo: any }
 };
 
 export const upLoadToS3 = async (url: string, file: File) => {
-  console.log("오류 확인 uploadtoS3")
+  
   const response = await axios.put(url, file
     , {
     headers: {
@@ -66,10 +67,12 @@ export const useUploadImage = (locationId: number) => {
     }) =>{
       
       const data  = await requestPresignedUrl(locationId, fileName, fileExtension)
-      const url = data[0].url
+      
+      const url = data.url
 
       const uploadStatus = await upLoadToS3(url, file);
-      
+      // const uploadStatus = true
+  
       return await confirmUpload(locationId, uploadStatus)
     }, 
     onSuccess: (newImages) => {

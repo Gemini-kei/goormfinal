@@ -1,21 +1,25 @@
 "use client";
 
-import { useImagesLoad } from '@/hooks/useImagesLoad';
-import ImageUploader from './ImageUploader';
-import { Xicon } from './icons/icons';
-import ImageDelete from './ImageDelete';
+import { useImagesLoad } from "@/hooks/useImagesLoad";
+import ImageUploader from "./ImageUploader";
+import { Xicon } from "./icons/icons";
+import ImageDelete from "./ImageDelete";
 interface markerGalleryProps {
-  name: string
-  locationId: number
-  onClose:() => void
+  name: string;
+  locationId: number;
+  onClose: () => void;
 }
 
-export default function GalleryOverlay({ name, locationId, onClose }: markerGalleryProps) {
+export default function GalleryOverlay({
+  name,
+  locationId,
+  onClose,
+}: markerGalleryProps) {
   const { data, isLoading, isError } = useImagesLoad(locationId);
 
   if (isLoading) return <p>Loading...</p>;
   if (isError || !data) return <p>Error loading photo</p>;
-  
+
   return (
     <div className="p-4 bg-white border border-gray-300 rounded-md shadow-lg text-black w-[300px]">
       {/* 제목 영역 */}
@@ -31,24 +35,22 @@ export default function GalleryOverlay({ name, locationId, onClose }: markerGall
       </button>
       {/* 이미지 그리드 영역 */}
       <div className="grid grid-cols-3 gap-2 mb-4">
-      {data?.map((image) => (
-        <img
-          key={image.id}
-          src={image.url}
-          alt={image.fileName}
-          className="w-full h-auto rounded shadow-sm object-cover"
-          loading='lazy'
-        />
-      ))}
-    </div>
-      
-      {/* 사진 추가 버튼 및 삭제 버튼 */}
-      <div className='flex gap-2 justify-center items-center'>
-      <ImageUploader locationId={locationId} />
-      <ImageDelete locationId={locationId} />
+        {data?.map((image, index) => (
+          <img
+            key={image.id || index}
+            src={image.url}
+            alt={image.fileName}
+            className="w-full h-auto rounded shadow-sm object-cover"
+            loading="lazy"
+          />
+        ))}
       </div>
-      
-      
+
+      {/* 사진 추가 버튼 및 삭제 버튼 */}
+      <div className="flex gap-2 justify-center items-center">
+        <ImageUploader locationId={locationId} />
+        <ImageDelete locationId={locationId} />
+      </div>
     </div>
   );
 }
