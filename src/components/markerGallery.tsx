@@ -1,6 +1,9 @@
 "use client";
 
 import { useImagesLoad } from '@/hooks/useImagesLoad';
+import ImageUploader from './ImageUploader';
+import { Xicon } from './icons/icons';
+import ImageDelete from './ImageDelete';
 interface markerGalleryProps {
   name: string
   locationId: number
@@ -14,26 +17,38 @@ export default function GalleryOverlay({ name, locationId, onClose }: markerGall
   if (isError || !data) return <p>Error loading photo</p>;
   
   return (
-    <div className="p-2 bg-white border border-black rounded-md text-black">
-      <div className="grid grid-cols-2 gap-4">
+    <div className="p-4 bg-white border border-gray-300 rounded-md shadow-lg text-black w-[300px]">
+      {/* 제목 영역 */}
+      <div className="mb-4 text-center">
+        <h4 className="font-bold text-lg">{name}</h4>
+      </div>
+      <button
+        onClick={onClose}
+        className="absolute top-3 right-3 p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-all"
+        aria-label="Close"
+      >
+        <Xicon />
+      </button>
+      {/* 이미지 그리드 영역 */}
+      <div className="grid grid-cols-3 gap-2 mb-4">
       {data?.map((image) => (
         <img
           key={image.id}
           src={image.url}
           alt={image.fileName}
-          className="w-full h-auto rounded shadow"
+          className="w-full h-auto rounded shadow-sm object-cover"
+          loading='lazy'
         />
       ))}
     </div>
       
-      <h4>{name}</h4>
-    
-      <button
-        onClick={onClose}
-        className="mt-1 cursor-pointer bg-gray-200 hover:bg-gray-300 text-sm px-3 py-1 rounded"
-      >
-        닫기
-      </button>
+      {/* 사진 추가 버튼 및 삭제 버튼 */}
+      <div className='flex gap-2 justify-center items-center'>
+      <ImageUploader locationId={locationId} />
+      <ImageDelete locationId={locationId} />
+      </div>
+      
+      
     </div>
   );
 }
