@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import {
   PostLocationsGroupsIdRequest,
   PostLocationsGroupsIdResponseList,
 } from "@/lib/groupType";
+import { axiosInstance } from '@/components/axiosInstance';
 
 export type ApiResponse<T> = {
   code: number;
@@ -17,9 +17,10 @@ const addMarker = async (
   groupId: number
 ): Promise<PostLocationsGroupsIdResponseList> => {
   // const groupId = groupId
-  const response = await axios.post<
+  const response = await axiosInstance.post<
     ApiResponse<PostLocationsGroupsIdResponseList>
   >(`/locations/groups/${groupId}`, marker); // 마커 추가 API 호출
+  //console.log(response.data.data)
   return response.data.data; // 새 마커 데이터 반환
 };
 
@@ -37,6 +38,7 @@ export const useAddMarkerMutation = () => {
         ["locations"],
         (oldMarkers = []) => [...oldMarkers, newMarker]
       );
+      console.log("업로드 성공")
     },
     onError: (error) => {
       console.error("마커 추가 실패:", error);

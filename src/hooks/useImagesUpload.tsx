@@ -78,6 +78,8 @@ export const useUploadImage = (locationId: number) => {
     }, 
     onSuccess: (newImages) => {
       // 업로드 성공 시 이미지 목록 갱신
+      console.log("이미지",newImages)
+  
       queryClient.setQueryData<PostPhotosPhotoIdResponseList[]>(
         ["images", locationId],
         (oldImages = []) => [...oldImages, newImages]
