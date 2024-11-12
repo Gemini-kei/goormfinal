@@ -28,7 +28,7 @@ export default function UserInfo() {
   const { mutate: deleteAccount } = useDeleteAccount();
 
   // 비밀번호 변경 함수
-  const handlePasswordChange = async () => {
+  const handlePasswordChange = () => {
     if (!oldPassword || !newPassword) {
       alert("모든 비밀번호 필드를 입력하세요.");
       return;
@@ -47,7 +47,7 @@ export default function UserInfo() {
   };
 
   // 회원탈퇴 함수
-  const handleDeleteAccount = async () => {
+  const handleDeleteAccount = () => {
     const confirmDelete = confirm("정말로 회원탈퇴를 진행하시겠습니까?");
     if (!confirmDelete) return;
     deleteAccount();
