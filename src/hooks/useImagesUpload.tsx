@@ -11,12 +11,12 @@ export type ApiResponse<T> = {
   data: T;
 };
 
-export const confirmUpload = async (photosId: number, uploadStatus: boolean): Promise<PostPhotosPhotoIdResponseList> => {
+export const confirmUpload = async (photoId: number, uploadStatus: boolean): Promise<PostPhotosPhotoIdResponseList> => {
   
   const response = await axiosInstance.post<
   ApiResponse<PostPhotosPhotoIdResponseList>
 >(
-    `/photos/photos/${photosId}`,
+    `/photos/${photoId}`,
     uploadStatus
   );
   
@@ -66,15 +66,14 @@ export const useUploadImage = (locationId: number) => {
       fileExtension: string;
     }) =>{
       
-      const data  = await requestPresignedUrl(locationId, fileName, fileExtension)
+      const {url, id}  = await requestPresignedUrl(locationId, fileName, fileExtension)
       
-      const url = data.url
-      const photosId = data.id
+      
 
       const uploadStatus = await upLoadToS3(url, file);
       // const uploadStatus = true
       
-      return await confirmUpload(photosId, uploadStatus)
+      return await confirmUpload(id, uploadStatus)
     }, 
     onSuccess: (newImages) => {
       // 업로드 성공 시 이미지 목록 갱신
