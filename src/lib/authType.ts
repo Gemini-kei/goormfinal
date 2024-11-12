@@ -1,3 +1,4 @@
+import exp from 'constants';
 
 
 export type PostApiMembersRequest = {
@@ -54,4 +55,10 @@ export type GetApiMembersEmailCheckResponse = {
     isDuplicate : boolean,
     message : string
 
+}
+
+export type GetApiMembersInfoResponse = {
+  id: number,
+  email: string,
+  name: string
 }

@@ -11,6 +11,7 @@ export type ApiResponse<T> = {
   data: T;
 };
 
+
 export const confirmUpload = async (photoId: number, uploadStatus: boolean): Promise<PostPhotosPhotoIdResponseList> => {
   
   const response = await axiosInstance.post<
@@ -90,3 +91,4 @@ export const useUploadImage = (locationId: number) => {
     },
   });
 };
+
