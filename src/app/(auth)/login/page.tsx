@@ -8,7 +8,7 @@ import {
 } from "@/components/icons/icons";
 import Input from "@/components/Input";
 import { useAuth } from "@/context/AuthContext";
-import KakaoLoginButton from "@/hooks/useSocialLogin";
+import KakaoLoginBtn from '@/hooks/useKakaoLogin';
 
 export default function Login() {
   // const [email, setEmail] = useState("");
@@ -96,7 +96,8 @@ export default function Login() {
 
         <p className="text-sm text-gray-500">계정이 없으신가요? <Link href="/signup" className="text-blue-500 hover:underline">회원가입</Link></p>
 
-        <KakaoLoginButton />
+        
+        <KakaoLoginBtn />
       </div>
     </div>
   );
