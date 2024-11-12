@@ -62,7 +62,7 @@ export default function GalleryOverlay({
   return (
     <div
       ref={overlayRef}
-      className="top-4 left-4 p-4 bg-white border border-gray-300 rounded-md shadow-lg text-black w-[300px] absolute"
+      className="-top-96 left-10 p-4 bg-white border border-gray-300 rounded-md shadow-lg text-black w-[300px] absolute"
       // style={{ top: "20px", left: "20px" }} // 기본 위치 설정
     >
       {/* 제목 영역 */}

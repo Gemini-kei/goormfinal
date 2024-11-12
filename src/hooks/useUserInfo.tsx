@@ -3,17 +3,24 @@ import { axiosInstance } from "@/components/axiosInstance";
 import { GetApiMembersInfoResponse } from "@/lib/authType";
 import { useAuth } from '@/context/AuthContext';
 // 유저 정보 요청 함수
-const fetchUserInfo = async (accessToken: string) => {
-  const headers: Record<string, string> = {};
-  if (accessToken) {
-    headers.Authorization = `Bearer ${accessToken}`;
-  }
 
-  const response = await axiosInstance.get<GetApiMembersInfoResponse>(
+export type ApiResponse<T> = {
+  code: number;
+  status: string;
+  message: string;
+  data: T;
+};
+
+const fetchUserInfo = async (accessToken: string):Promise<GetApiMembersInfoResponse> => {
+    const response = await axiosInstance.get<ApiResponse<GetApiMembersInfoResponse>>(
     "/members/info",
-    { headers }
+    {
+    headers:{
+      Authorization: `Bearer ${accessToken}`,
+    }}
   );
-  return response.data;
+  console.log(response.data.data)
+  return response.data.data;
 };
 
 // 유저 정보 요청 훅

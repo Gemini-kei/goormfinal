@@ -18,7 +18,7 @@ export const checkEmail = async (
       }
       
     );
-    console.log(response.data.data.isDuplicate);
+    
     return response.data.data; // 성공 메시지 반환
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {

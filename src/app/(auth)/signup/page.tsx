@@ -58,11 +58,6 @@ export default function SignUp() {
     setFormValues((prev) => ({ ...prev, [name]: value }));
   };
 
-  const isButtonDisabled =
-    !isEmailValid ||
-    Object.values(errors).some((error) => error !== "") ||
-    Object.values(formValues).some((value) => value === "");
-
   // const handleCheckEmail = () => {
   //   setIsEmailValid(true);
   //   setEmailCheckMessage("테스트");
@@ -70,9 +65,9 @@ export default function SignUp() {
   // };
   const handleCheckEmail = async () => {
     try {
-      const { isDuplicate, message } = await checkEmail(formValues.email);
+      const { duplicate, message } = await checkEmail(formValues.email);
       setEmailCheckMessage(message);
-      setIsEmailValid(isDuplicate);
+      setIsEmailValid(duplicate);
     } catch (error) {
       setEmailCheckMessage((error as Error).message);
       setIsEmailValid(false);
@@ -81,14 +76,22 @@ export default function SignUp() {
     }
   };
 
+  
+  const isButtonDisabled =
+    !isEmailValid ||
+    Object.values(errors).some((error) => error !== "") ||
+    Object.values(formValues).some((value) => value === "");
+
+
+    console.log("회원가입 isbutton테스트", isButtonDisabled)
+
   const handleSignUp: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
     const { email, password, name, confirmPassword } = formValues;
 
-    if (isButtonDisabled) return;
     if (password !== confirmPassword) return;
-
+    console.log("회원가입")
     signUpMutation.mutate({
       email,
       password,
@@ -188,7 +191,7 @@ export default function SignUp() {
 
           <button
             type="submit"
-            disabled={isButtonDisabled}
+            disabled={!isButtonDisabled}
             className="w-full py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 disabled:opacity-50 shadow-md"
           >
             가입하고 시작하기
