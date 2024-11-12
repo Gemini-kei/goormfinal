@@ -8,7 +8,11 @@ export default function Layout({ children }: React.PropsWithChildren) {
   // console.log("layout등장")
   return (
     <>
-      <Script src={src} strategy="beforeInteractive" type="text/javascript" />
+      <Script 
+        src={src} 
+        strategy="beforeInteractive"
+        type="text/javascript"
+      />
 
       {children}
     </>
