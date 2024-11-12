@@ -5,9 +5,6 @@ import { useMarkersLoad } from "@/hooks/mapMarker/useMarkerLoad";
 import { useMap } from "@/hooks/useMap";
 import { useMapMarkersLoad } from "@/hooks/mapMarker/useMapMarkerLoad";
 
-import { useImagesLoad } from '@/hooks/useImagesLoad';
-import GalleryOverlay from './markerGallery';
-
 
 type mapCoordinate = {
   latitude: number;
