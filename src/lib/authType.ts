@@ -51,10 +51,8 @@ export type GetApiMembersSignUpResponse = {
 }
 
 export type GetApiMembersEmailCheckResponse = {
-  
-    isDuplicate : boolean,
-    message : string
-
+  isDuplicate : boolean,
+  message : string
 }
 
 export type GetApiMembersInfoResponse = {

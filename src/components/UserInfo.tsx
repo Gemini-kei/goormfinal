@@ -6,15 +6,10 @@ import { useState, useEffect } from "react";
 import { useDeleteAccount } from '@/hooks/useUserDelete';
 
 export default function UserInfo() {
-  const [token, setToken] = useState<string | null>(null);
-
-  // 비동기로 로컬 스토리지에서 토큰 가져오기
-  useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-    setToken(accessToken);
-  }, []);
-
-  const { data, isLoading, isError } = useFetchUserInfo(token || "");
+  
+  const { data, isLoading, isError } = useFetchUserInfo();
+  const changePasswordMutation = useChangePassword();
+  const { mutate: deleteAccount } = useDeleteAccount();
 
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -24,8 +19,6 @@ export default function UserInfo() {
   if (isError || !data) return <p>Error loading user info</p>;
 
   const { name, email } = data; // 유저 이름, 이메일 데이터
-  const changePasswordMutation = useChangePassword();
-  const { mutate: deleteAccount } = useDeleteAccount();
 
   // 비밀번호 변경 함수
   const handlePasswordChange = () => {

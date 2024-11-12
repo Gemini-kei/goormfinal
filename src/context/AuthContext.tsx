@@ -25,6 +25,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (token) {
+      setAccessToken(token);
       setIsLogin(true);
     }
   }, []);
@@ -40,14 +41,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       onSuccess: (data) => {
           
           setAccessToken(localStorage.getItem('accessToken'))
-
-          console.log("success data: ", data.accessToken,"accessToken : ", localStorage.getItem('accessToken'));
           setIsLogin(true);
           router.push('/map');
   
       },
       onError:() => {
-        console.log("로그인 failed")
+        console.log("로그인 실패")
       },});
   };
 
@@ -67,6 +66,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // };
 
   const logout = () => {
+    localStorage.removeItem("accessToken");
     setAccessToken(null);
     setIsLogin(false)
     console.log("logout")

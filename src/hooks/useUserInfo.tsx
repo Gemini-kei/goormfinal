@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "@/components/axiosInstance";
 import { GetApiMembersInfoResponse } from "@/lib/authType";
+import { useAuth } from '@/context/AuthContext';
 // 유저 정보 요청 함수
 const fetchUserInfo = async (accessToken: string) => {
   const headers: Record<string, string> = {};
@@ -16,7 +17,9 @@ const fetchUserInfo = async (accessToken: string) => {
 };
 
 // 유저 정보 요청 훅
-export const useFetchUserInfo = (accessToken: string) => {
+export const useFetchUserInfo = () => {
+  const {accessToken } = useAuth();
+
   return useQuery({
     queryKey: ["userInfo", accessToken],
     queryFn: () => fetchUserInfo(accessToken!),

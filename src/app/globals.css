@@ -19,6 +19,9 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+:focus {
+  outline: none; /* 모든 포커스 요소의 기본 포커스 스타일 제거 */
+}
 
 @layer utilities {
   .text-balance {
