@@ -4,6 +4,7 @@ import { useImagesLoad } from "@/hooks/useImagesLoad";
 import ImageUploader from "./ImageUploader";
 import { Xicon } from "./icons/icons";
 import ImageDelete from "./ImageDelete";
+import ImageModal from "./ImageModal";
 
 import { useState, useRef, useEffect } from "react";
 interface markerGalleryProps {
@@ -19,12 +20,25 @@ export default function GalleryOverlay({
 }: markerGalleryProps) {
   const { data, isLoading, isError } = useImagesLoad(locationId);
 
-  const [selectedId, setSelectedId] = useState<number | null>(null); // 한 개의 이미지 ID 상태
+  const [selectedIds, setSelectedIds] = useState<number[]>([]); // 한 개의 이미지 ID 상태
 
+  const [modalImageUrl, setModalImageUrl] = useState<string | null>(null); // 모달 이미지 상태
+  const [isDeleteMode, setIsDeleteMode] = useState<boolean>(false); // 삭제 모드 상태
   const overlayRef = useRef<HTMLDivElement>(null);
 
+
   const handleSelect = (id: number) => {
-    setSelectedId((prevId) => (prevId === id ? null : id)); // 이미 선택된 ID 클릭 시 해제
+    setSelectedIds((prevIds) =>
+      prevIds.includes(id) ? prevIds.filter((prevId) => prevId !== id) : [...prevIds, id]
+    );
+  };
+  const handleImageClick = (imageUrl: string) => {
+    if (!isDeleteMode) {
+      console.log("Image clicked:", imageUrl); // 로그 추가
+      setModalImageUrl(imageUrl); // 삭제 모드가 아니면 모달 열기
+    } else{
+      console.log("Image not open:"); // 로그 추가
+    }
   };
 
   useEffect(() => {
@@ -71,18 +85,32 @@ export default function GalleryOverlay({
       >
         {data?.map((image, index) => (
           <div
-            key={image.id || index}
-            onClick={() => handleSelect(image.id)}
-            className={`relative cursor-pointer ${
-              selectedId === image.id ? "border-4 border-blue-500" : ""
-            }`}
+            key = {image.id || index}
+            className="relative cursor-pointer"
+            onClick={() => {
+              if (!isDeleteMode) handleImageClick(image.url); // 삭제 모드가 아닐 때만 확대
+            }}
           >
             <img
+              key={image.id || index}
               src={image.url}
               alt={image.fileName}
               className="w-full h-24 object-cover rounded shadow-sm"
               loading="lazy"
+              // onClick={() => handleImageClick(image.url)}
             />
+            {/* 삭제 모드에서 체크박스 표시 */}
+            {isDeleteMode && (
+                <input
+                  type="checkbox"
+                  className="absolute top-2 right-2 w-5 h-5"
+                  checked={selectedIds.includes(image.id)}
+                  onChange={(e) => {
+                    e.stopPropagation();
+                    handleSelect(image.id)
+                  }}
+                />
+              )}
           </div>
         ))}
       </div>
@@ -90,12 +118,29 @@ export default function GalleryOverlay({
       {/* 사진 추가 버튼 및 삭제 버튼 */}
       <div className="flex gap-2 justify-center items-center">
         <ImageUploader locationId={locationId} />
-        <ImageDelete
-          locationId={locationId}
-          selectedId={selectedId || 0}
-          onDelete={() => setSelectedId(null)}
-        />
+        <button
+            onClick={() => setIsDeleteMode((prev) => !prev)}
+            className={`w-full block ${
+              isDeleteMode ? "bg-gray-500 hover:bg-gray-600" : "bg-red-500 hover:bg-red-600"
+            } text-white text-center py-2 rounded cursor-pointer`}
+          >
+            {isDeleteMode ? "삭제 취소" : "사진 삭제"}
+          </button>
+          {isDeleteMode && (
+            <ImageDelete
+              locationId={locationId}
+              selectedIds={selectedIds}
+              onDelete={() => setSelectedIds([])}
+            />
+          )}
       </div>
+      {/* 모달 컴포넌트 */}
+      {modalImageUrl && (
+        <ImageModal
+          imageUrl={modalImageUrl}
+          onClose={() => setModalImageUrl(null)} // 모달 닫기
+        />
+      )}
     </div>
   );
 }

@@ -2,21 +2,29 @@ import { useDeleteImage } from "@/hooks/useImagesDelete";
 
 const ImageDelete = ({
   locationId,
-  selectedId,
+  selectedIds,
   onDelete,
 }: {
   locationId: number;
-  selectedId: number; // 선택된 이미지 ID
+  selectedIds: number[]; // 선택된 이미지 ID
   onDelete: () => void;
 }) => {
   const deleteMutation = useDeleteImage(locationId);
 
   const handleDelete = () => {
-    deleteMutation.mutate(selectedId, {
-      onSuccess: () => {
-        onDelete(); // 삭제 성공 후 선택 해제
-      },
-    });
+    if(selectedIds.length === 0) {
+      alert("삭제할 이미지를 선택하세요.");
+      return;
+    }
+
+    selectedIds.forEach((id) => {
+      deleteMutation.mutate(id, {
+        onSuccess: () => {
+          onDelete();
+        }
+      })
+    })
+    
   };
 
   return (
