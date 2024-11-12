@@ -1,6 +1,5 @@
 "use client";
 
-// import KakaoMap from '@/components/KakaoMap';
 import KakaoMap from '@/components/Map';
 
 
