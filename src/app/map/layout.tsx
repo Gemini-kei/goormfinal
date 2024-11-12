@@ -10,7 +10,7 @@ export default function Layout({ children }: React.PropsWithChildren) {
     <>
       <Script 
         src={src} 
-        strategy="afterInteractive"
+        strategy="beforeInteractive"
         type="text/javascript"
       />
 
