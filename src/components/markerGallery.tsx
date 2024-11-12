@@ -24,7 +24,7 @@ export default function GalleryOverlay({
   
   const [modalImageIndex, setModalImageIndex] = useState<number | null>(null);
   
-  const [modalImageUrl, setModalImageUrl] = useState<string | null>(null); // 모달 이미지 상태
+  // const [modalImageUrl, setModalImageUrl] = useState<string | null>(null); // 모달 이미지 상태
   
   const [isDeleteMode, setIsDeleteMode] = useState<boolean>(false); // 삭제 모드 상태
   const overlayRef = useRef<HTMLDivElement>(null);
