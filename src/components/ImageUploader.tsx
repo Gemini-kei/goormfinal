@@ -7,8 +7,8 @@ const ImageUploader = ({ locationId }: { locationId: number }) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       const fileName = file.name; // 전체 파일 이름
-      const fileExtension = fileName.split(".").pop() || ""; // 확장자 추출
-      console.log("오류 확인 handleupload")
+      const fileExtension = file.type.split("/").pop() || ""; // 확장자 추출
+      console.log("오류 확인 handleupload",)
       // 업로드 Mutation 실행
       uploadMutation.mutate({ file, fileName, fileExtension });
     }
