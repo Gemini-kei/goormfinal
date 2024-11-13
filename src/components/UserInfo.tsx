@@ -88,7 +88,7 @@ export default function UserInfo() {
               type="password"
               placeholder="새 비밀번호 확인"
               value={newPasswordConfirm}
-              onChange={(e) => setNewPassword(e.target.value)}
+              onChange={(e) => setNewPasswordConfirm(e.target.value)}
               className="w-full p-3 border rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {passwordError && (

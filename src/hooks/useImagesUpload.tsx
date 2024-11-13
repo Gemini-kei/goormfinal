@@ -70,7 +70,6 @@ export const useUploadImage = (locationId: number) => {
         fileExtension
       );
 
-      console.log("S3보낼거",url, file)
       const uploadStatus = await upLoadToS3(url, file);
       // const uploadStatus = true
 
@@ -78,7 +77,6 @@ export const useUploadImage = (locationId: number) => {
     },
     onSuccess: (newImages) => {
       // 업로드 성공 시 이미지 목록 갱신
-      console.log("이미지", newImages);
 
       queryClient.setQueryData<PostPhotosPhotoIdResponseList[]>(
         ["images", locationId],

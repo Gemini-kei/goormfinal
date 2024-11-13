@@ -83,15 +83,12 @@ export default function SignUp() {
     Object.values(formValues).some((value) => value === "");
 
 
-    console.log("회원가입 isbutton테스트", isButtonDisabled)
-
   const handleSignUp: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
     const { email, password, name, confirmPassword } = formValues;
 
     if (password !== confirmPassword) return;
-    console.log("회원가입")
     signUpMutation.mutate({
       email,
       password,
