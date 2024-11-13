@@ -7,6 +7,7 @@ import ImageDelete from "./ImageDelete";
 import ImageModal from "./ImageModal";
 
 import { useState, useRef, useEffect } from "react";
+import MarkerDelete from './MarkerDelete';
 interface markerGalleryProps {
   name: string;
   locationId: number;
@@ -63,10 +64,11 @@ export default function GalleryOverlay({
     <div
       ref={overlayRef}
       className="top-2 left-2 p-4 bg-white border border-gray-300 rounded-md shadow-lg text-black w-[300px] absolute"
+      onClick={(e) => e.stopPropagation()} // 이벤트 전파 방지
       // style={{ top: "20px", left: "20px" }} // 기본 위치 설정
     >
       {/* 제목 영역 */}
-      <div className="mb-4 text-center">
+      <div className="mb-4 text-left">
         <h4 className="font-bold text-lg">{name}</h4>
       </div>
       <button
@@ -76,6 +78,13 @@ export default function GalleryOverlay({
       >
         <Xicon />
       </button>
+      
+      <MarkerDelete 
+        locationId={locationId}
+        onClose={onClose}
+      />
+      
+      
       {/* 이미지 그리드 영역 */}
       <div
         className="grid grid-cols-3 gap-2 mb-4 max-h-[300px] overflow-y-auto pr-4"

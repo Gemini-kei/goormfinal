@@ -40,6 +40,10 @@ export function useMapMarkersLoad({ map, markersData }: UseMapMarkerLoadProps) {
         markersRef.current.push(newMarker);
 
         const overlayDiv = document.createElement("div");
+        overlayDiv.addEventListener("click", (e) => {
+          e.stopPropagation();
+        });
+
         const root = createRoot(overlayDiv);
 
         const newCustomOverlay = new window.kakao.maps.CustomOverlay({
@@ -81,21 +85,21 @@ export function useMapMarkersLoad({ map, markersData }: UseMapMarkerLoadProps) {
     },
     [map, markersRef, customOverlays, addMarker, groupId]
   );
-  useEffect(() => {
-    if (map) {
-      // 맵 클릭 시 기존 오버레이 모두 닫기
-      const handleMapClick = () => {
-        customOverlays.current.forEach((overlay) => overlay.setMap(null));
-        overlayRef.current?.setMap(null); // 등록 중인 Overlay 닫기
-      };
+  // useEffect(() => {
+  //   if (map) {
+  //     // 맵 클릭 시 기존 오버레이 모두 닫기
+  //     const handleMapClick = () => {
+  //       // customOverlays.current.forEach((overlay) => overlay.setMap(null));
+  //       overlayRef.current?.setMap(null); // 등록 중인 Overlay 닫기
+  //     };
   
-      kakao.maps.event.addListener(map, "click", handleMapClick);
+  //     kakao.maps.event.addListener(map, "click", handleMapClick);
   
-      return () => {
-        kakao.maps.event.removeListener(map, "click", handleMapClick);
-      };
-    }
-  }, [map, customOverlays]);
+  //     return () => {
+  //       kakao.maps.event.removeListener(map, "click", handleMapClick);
+  //     };
+  //   }
+  // }, [map, customOverlays]);
   
   useEffect(() => {
     if (map) {
@@ -114,6 +118,9 @@ export function useMapMarkersLoad({ map, markersData }: UseMapMarkerLoadProps) {
         });
 
         const overlayDiv = document.createElement("div");
+        overlayDiv.addEventListener("click", (e) => {
+          e.stopPropagation();
+        });
         const root = createRoot(overlayDiv);
         root.render(
           <ReactQueryProvider>
@@ -156,6 +163,9 @@ export function useMapMarkersLoad({ map, markersData }: UseMapMarkerLoadProps) {
   useEffect(() => {
     if (map && overlayPosition) {
       const overlayDiv = document.createElement("div");
+      overlayDiv.addEventListener("click", (e) => {
+        e.stopPropagation();
+      });
       overlayDiv.style.whiteSpace = "normal";
       overlayDiv.style.maxWidth = "300px"; // 최대 너비 제한
       const root = createRoot(overlayDiv);
@@ -183,4 +193,6 @@ export function useMapMarkersLoad({ map, markersData }: UseMapMarkerLoadProps) {
       overlayRef.current = customOverlay;
     }
   }, [map, overlayPosition, handleAddMarker]); // handleAddMarker 포함
+
+  
 }
