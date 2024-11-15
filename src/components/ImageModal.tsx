@@ -34,21 +34,21 @@ export default function ImageModal({ imageUrl, onClose, onNext, onPrev }: ImageM
         />
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 bg-white rounded-full p-2 shadow hover:bg-gray-200"
+          className="fixed top-4 right-4 bg-white rounded-full p-2 shadow hover:bg-gray-200"
           aria-label="Close"
         >
           <Xicon />
         </button>
         <button
           onClick={onPrev}
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow hover:bg-gray-200"
+          className="fixed left-4 top-1/2 transform -translate-y-1/2 bg-transparent rounded-full p-2 shadow hover:bg-gray-200"
           aria-label="Previous"
         >
           ◀
         </button>
         <button
           onClick={onNext}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow hover:bg-gray-200"
+          className="fixed right-4 top-1/2 transform -translate-y-1/2 bg-transparent rounded-full p-2 shadow hover:bg-gray-200"
           aria-label="Next"
         >
           ▶

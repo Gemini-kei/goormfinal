@@ -1,28 +1,17 @@
 "use client";
 
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { useMarkersLoad } from "@/hooks/mapMarker/useMarkerLoad";
 import { useMap } from "@/hooks/useMap";
-import { useMapMarkersLoad } from "@/hooks/mapMarker/useMapMarkerLoad";
+// import { MapMarkersLoad } from "@/components/MapMarkerLoad";
+import { MapMarkersLoad2 } from './MapMarkerLoad2';
 
-
-type mapCoordinate = {
-  latitude: number;
-  longitude: number;
-};
-
-export default function KakaoMap({ latitude, longitude }: mapCoordinate) {
-  const { map, mapContainerRef } = useMap({ latitude, longitude });
-
-  const { data, isLoading, isError } = useMarkersLoad();
-  
-  if (isLoading) {
-    console.log("Loading...");
-  }
-
-  if (isError) {
-    console.error("Error loading markers.");
-  }
+export default function KakaoMap() {
+  const latitude = 37.5665
+  const longitude = 126.978;
+  const { map, mapContainerRef } = useMap({latitude, longitude});
+  const [groupId, setGroupId] = useState(0)
+  const { data } = useMarkersLoad();
 
   const markersData = useMemo(() => {
     if (!data) return [];
@@ -43,9 +32,12 @@ export default function KakaoMap({ latitude, longitude }: mapCoordinate) {
         markersData[0].longitude
       );
       map.setCenter(firstMarkerPosition);
+      setGroupId(markersData[0].groupId)
     }
   }, [map, markersData]);
-  useMapMarkersLoad({ map, markersData: markersData }); // 마커 데이터 전달
+  
+  // MapMarkersLoad({ map, markersData: markersData,groupId }); // 마커 데이터 전달 1차 원래꺼
+  MapMarkersLoad2({map, markersData:markersData, groupId})
   // console.log("markersData", markersData);
   return <div ref={mapContainerRef} className="w-full h-screen"></div>;
 }

@@ -6,7 +6,6 @@ type UseKakaoMapProps = {
   level?: number;
 };
 
-
 export function useMap({ latitude, longitude, level = 2 }: UseKakaoMapProps) {
 
   const mapContainerRef = useRef<HTMLDivElement | null>(null);

@@ -7,7 +7,7 @@ import ImageDelete from "./ImageDelete";
 import ImageModal from "./ImageModal";
 
 import { useState, useRef, useEffect } from "react";
-import MarkerDelete from './MarkerDelete';
+// import MarkerDelete from './MarkerDelete';
 interface markerGalleryProps {
   name: string;
   locationId: number;
@@ -78,11 +78,11 @@ export default function GalleryOverlay({
       >
         <Xicon />
       </button>
-      
+{/*       
       <MarkerDelete 
         locationId={locationId}
         onClose={onClose}
-      />
+      /> */}
       
       
       {/* 이미지 그리드 영역 */}

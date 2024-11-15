@@ -1,4 +1,5 @@
 import { useDeleteImage } from "@/hooks/useImagesDelete";
+import { TrashBin } from './icons/icons';
 
 const ImageDelete = ({
   locationId,
@@ -33,7 +34,7 @@ const ImageDelete = ({
         onClick={handleDelete}
         className="w-full block bg-red-500 hover:bg-red-600 text-white text-center py-2 rounded cursor-pointer"
       >
-        사진 삭제
+        <TrashBin />
       </button>
     </div>
   );

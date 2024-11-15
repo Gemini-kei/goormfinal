@@ -1,4 +1,5 @@
 import { useUploadImage } from "@/hooks/useImagesUpload";
+import { CameraIcon } from './icons/icons';
 
 const ImageUploader = ({ locationId }: { locationId: number }) => {
   const uploadMutation = useUploadImage(locationId);
@@ -16,8 +17,9 @@ const ImageUploader = ({ locationId }: { locationId: number }) => {
 
   return (
     <div className="flex justify-center w-full">
+      
       <label className="w-full block bg-blue-500 hover:bg-blue-600 text-white text-center py-2 rounded cursor-pointer">
-      사진 추가
+      <CameraIcon />
       <input 
         type="file" 
         accept="image/*" 
