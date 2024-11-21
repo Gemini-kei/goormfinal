@@ -8,7 +8,7 @@ import {
 } from "@/components/icons/icons";
 import Input from "@/components/Input";
 import { useAuth } from "@/context/AuthContext";
-import KakaoLoginBtn from '@/hooks/useKakaoLogin';
+import KakaoLoginBtn from '@/hooks/auth/useKakaoLogin';
 
 export default function Login() {
   // const [email, setEmail] = useState("");

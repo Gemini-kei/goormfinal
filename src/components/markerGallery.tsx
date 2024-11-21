@@ -1,10 +1,10 @@
 "use client";
 
-import { useImagesLoad } from "@/hooks/useImagesLoad";
-import ImageUploader from "./ImageUploader";
+import { useImagesLoad } from "@/hooks/Image/useImagesLoad";
+import ImageUploader from "./Image/ImageUploader";
 import { Xicon } from "./icons/icons";
-import ImageDelete from "./ImageDelete";
-import ImageModal from "./ImageModal";
+import ImageDelete from "./Image/ImageDelete";
+import ImageModal from "./Image/ImageModal";
 
 import { useState, useRef, useEffect } from "react";
 // import MarkerDelete from './MarkerDelete';

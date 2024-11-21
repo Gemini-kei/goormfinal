@@ -1,5 +1,5 @@
-import { useDeleteImage } from "@/hooks/useImagesDelete";
-import { TrashBin } from './icons/icons';
+import { useDeleteImage } from "@/hooks/Image/useImagesDelete";
+import { TrashBin } from '../icons/icons';
 
 const ImageDelete = ({
   locationId,

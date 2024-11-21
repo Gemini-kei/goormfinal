@@ -1,11 +1,11 @@
 "use client";
 
-import { useSignUp } from "@/hooks/useSignup";
+import { useSignUp } from "@/hooks/auth/useSignup";
 import { useState } from "react";
 import { CloseEyeicon, OpenEyeicon } from "@/components/icons/icons";
 import Input from "@/components/Input";
 import { validateField } from "@/components/auth/authValidate";
-import { checkEmail } from "@/hooks/useCheckEmail";
+import { checkEmail } from "@/hooks/auth/useCheckEmail";
 import EmailModal from "@/components/emailCheckModal";
 // import { useAuth } from '@/context/AuthContext';
 

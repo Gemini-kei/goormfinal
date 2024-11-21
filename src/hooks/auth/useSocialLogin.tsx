@@ -2,7 +2,7 @@
 
 import { KaKaoButtonSmall } from '@/components/icons/icons';
 //import KakaoMap from '@/components/KakaoMap';
-import { useLoadScript } from "./useScriptLoad";
+import { useLoadScript } from "../useScriptLoad";
 import { axiosInstance } from '@/components/axiosInstance';
 
 declare global {

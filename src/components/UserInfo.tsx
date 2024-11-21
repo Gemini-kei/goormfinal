@@ -1,9 +1,9 @@
 "use client";
 
-import { useChangePassword } from "@/hooks/useChangePassword";
-import { useFetchUserInfo } from "@/hooks/useUserInfo"; // 가져온 훅
+import { useChangePassword } from "@/hooks/user/useChangePassword";
+import { useFetchUserInfo } from "@/hooks/user/useUserInfo"; // 가져온 훅
 import { useState } from "react";
-import { useDeleteAccount } from "@/hooks/useUserDelete";
+import { useDeleteAccount } from "@/hooks/user/useUserDelete";
 
 export default function UserInfo() {
   const { data, isLoading, isError } = useFetchUserInfo();

@@ -1,5 +1,5 @@
-import { useUploadImage } from "@/hooks/useImagesUpload";
-import { CameraIcon } from './icons/icons';
+import { useUploadImage } from "@/hooks/Image/useImagesUpload";
+import { CameraIcon } from '../icons/icons';
 
 const ImageUploader = ({ locationId }: { locationId: number }) => {
   const uploadMutation = useUploadImage(locationId);
