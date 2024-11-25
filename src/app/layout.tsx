@@ -5,6 +5,7 @@ import ReactQueryProvider from "@/components/queryClientProvider";
 import MSWStart from "@/mocks/MSWstart";
 import { AuthProvider } from "@/context/AuthContext";
 
+
 import Script from "next/script";
 
 const appkey = process.env.NEXT_PUBLIC_KAKAO_APP_KEY; // Kakao API 키를 입력하세요
@@ -21,6 +22,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
   return (
     <html lang="en">
       <head>

@@ -35,3 +35,17 @@ export type PatchLocationsIdRequest = {
   latitude:number
   longitude:number
 }
+
+export type InvitationMember = {
+  id : number
+  email : string
+  name : string
+}
+
+export type PostInvitationsAcceptsResponse = {
+    id : number
+    name : string
+    members:InvitationMember[]  
+}
+    
+    

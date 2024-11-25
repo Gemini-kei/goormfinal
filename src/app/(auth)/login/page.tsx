@@ -8,14 +8,10 @@ import {
 } from "@/components/icons/icons";
 import Input from "@/components/Input";
 import { useAuth } from "@/context/AuthContext";
-import KakaoLoginBtn from '@/hooks/auth/useKakaoLogin';
+// import KakaoLoginBtn from '@/hooks/auth/useKakaoLogin';
+import KakaoLoginButton from '@/hooks/auth/useSocialLogin';
 
 export default function Login() {
-  // const [email, setEmail] = useState("");
-  // const [error, setError] = useState("");
-
-  // const [password, setPassword] = useState("");
-
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -97,7 +93,8 @@ export default function Login() {
         <p className="text-sm text-gray-500">계정이 없으신가요? <Link href="/signup" className="text-blue-500 hover:underline">회원가입</Link></p>
 
         
-        <KakaoLoginBtn />
+        {/* <KakaoLoginBtn /> */}
+        <KakaoLoginButton />
       </div>
     </div>
   );

@@ -4,14 +4,20 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+import { usePathname } from 'next/navigation';
 
 export default function NavBar() {
   const { isLogin, logout } = useAuth(); // useAuth 훅에서 로그인 상태와 로그아웃 함수 가져오기
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
   const handleLogout = () => {
     logout(); // useAuth에서 제공하는 로그아웃 함수 호출
   };
+
+  if (pathname === "/invitation") {
+    return null;
+  }
 
   return (
     <nav className="bg-white shadow-md">
